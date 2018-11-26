@@ -1,12 +1,14 @@
 print('Starting..  ', end='')
 import telebot
-
-import config
 from mark_rebot.Private import Private
 from mark_rebot.View import View
 from mark_rebot.CallBack import CallBack
 from mark_rebot.data_base import DB
 from mark_rebot.editor import Editor
+try:
+	import local_config as config
+except:
+	import config
 
 bot = telebot.TeleBot(config.TOKEN)
 db = DB(config)

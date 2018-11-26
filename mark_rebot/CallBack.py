@@ -31,7 +31,8 @@ class CallBack(object):
                 if cmd[2] == 'status':
                     self.db.switch_status(user_id)
                 else:
-                    self.db.channel_set(user_id, arg[0], arg[1])
+                    print(cmd)
+                    self.db.channel_set(user_id, cmd[2], cmd[3])
                 self.view.ch_setting(user_id)
 
         elif cmd[0] == 'open':

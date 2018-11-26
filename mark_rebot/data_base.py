@@ -135,11 +135,12 @@ class DB(object):
                 print(status, ' -> ', new_status)
                 cur.execute("UPDATE groups_setting SET status = %s WHERE id = (select group_select from users where id = %s);", (new_status, user_id,))
 
-    def channel_set(self, ch_id, set, arg):
+    def channel_set(self, user_id, set, arg):
         with self.conn:
             with self.conn.cursor() as cur:
                 print('DB channel set:', set, 'arg: ', arg)
-                cur.execute("UPDATE groups_setting SET {} = %s WHERE id = %s;".format(set), (arg, ch_id,))
+                cur.execute("UPDATE groups_setting SET {} = %s \
+                WHERE id = (select group_select from users where id = %s);".format(set), (arg, user_id,))
 
 
 

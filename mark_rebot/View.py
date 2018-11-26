@@ -135,15 +135,12 @@ class View(object):
         return 'PHG]['+photo_id, bts
 
     @gs_info
-    def mark_size(self, user_id,  ch_id):
-        return 'Установите размер марки', menu_markup.size_bts(ch_id)
+    def mark_size(self, user_id):
+        return 'Установите размер марки', menu_markup.size_bts()
 
     @gs_info
-    def pos_mark(self, user_id,msg_id):
-        
-       
-        text = 'Установите позицию марки'
-        return text, menu_markup.pos_buttons()
+    def pos_mark(self, user_id):
+        return 'Вибирете позицию марки', menu_markup.pos_bts()
 
     @gs_info
     def font_style(self, user_id, ch_id):
