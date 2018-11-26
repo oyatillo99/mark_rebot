@@ -7,11 +7,6 @@ import datetime
 class DB(object):
                 
     def __init__(self, config):
-        print(config.HOST)
-        print(config.USER)
-        print(config.PASSWORD)
-        print(config.DB_NAME)
-        
         self.conn = psycopg2.connect(f"host={config.HOST} port=5432\
          user={config.USER} password={config.PASSWORD} dbname={config.DB_NAME}")
         
