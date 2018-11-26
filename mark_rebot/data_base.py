@@ -7,8 +7,8 @@ import datetime
 class DB(object):
                 
     def __init__(self, config):
-        self.conn = psycopg2.connect(f"host={config.HOST} port=5432\
-         user={config.USER} password={config.PASSWORD} dbname={config.DB_NAME}")
+        self.conn = psycopg2.connect(f"host={config.DB_HOST} port=5432\
+         user={config.DB_USER} password={config.DB_PASSWORD} dbname={config.DB_NAME}")
         
     def new_user(self, user_id):
         date = datetime.datetime.today()
