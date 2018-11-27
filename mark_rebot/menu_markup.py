@@ -22,7 +22,7 @@ def size_bts():
                     button(text='15%', callback_data='set ch mark_size 15'))
     bts.add(button(text='18%', callback_data='set ch mark_size 18'),
                     button(text='22%', callback_data='set ch mark_size 22'),
-                    button(text='28%', callback_data='set ch mark_mark_size 28'))
+                    button(text='28%', callback_data='set ch mark_size 28'))
     return bts
 
 
