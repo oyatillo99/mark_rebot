@@ -120,7 +120,8 @@ class View(object):
 
     @gs_info
     def set_mark(self, user_id): 
-        bts = markup().add(Button(text = ' ⬅️ Назад  ', callback_data='open ch_sett'))
+        bts = markup()
+        bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open ch_sett'))
         return 'Пришлите текст или фото марку', bts
 
     @gs_info
