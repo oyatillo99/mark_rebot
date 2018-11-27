@@ -26,11 +26,11 @@ class Private(object):
             self.add_new_ch(message.text, user_id)
 
         elif user[1] == 'set_mark':
-            ch_id = user[2]
+            
             if message.photo:
                 photo_id = message.photo[-1].file_id
-                self.db.channel_set(ch_id, 'text_mark', 'off')
-                self.db.channel_set(ch_id, 'id_photo_mark', photo_id)
+                self.db.channel_set(user_id, 'text_mark', 'off')
+                self.db.channel_set(user_id, 'id_photo_mark', photo_id)
                 self.bot.send_message(user_id, 'Фото марка встановлен!')
 
             else:
