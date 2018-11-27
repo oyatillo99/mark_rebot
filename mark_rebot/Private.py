@@ -34,8 +34,8 @@ class Private(object):
                 self.bot.send_message(user_id, 'Фото марка встановлен!')
 
             else:
-                self.db.channel_set(ch_id, 'id_photo_mark', 'off')
-                self.db.channel_set(ch_id, 'text_mark', message.text)
+                self.db.channel_set(user_id, 'id_photo_mark', 'off')
+                self.db.channel_set(user_id, 'text_mark', message.text)
                 self.bot.send_message(user_id, 'Текст марки: *'+ message.text + '* встановлен!', parse_mode = 'Markdown')
             self.view.ch_setting(user_id, is_new = True)
             self.db.user_set(user_id, 'menu_select', 'ch_sett')
