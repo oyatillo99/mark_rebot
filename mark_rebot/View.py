@@ -116,7 +116,7 @@ class View(object):
                 bts.add(Button(text = 'Фото марки', callback_data = 'open photo_mark'))
             else:
                 bts.add(Button(text = 'Текст марки: ' + ch_info['text_mark'], callback_data = 'open set_mark'))
-                bts.add(Button(text = 'Цвет марки: '  + ch_info['color_mark'], callback_data = 'open view_color n'))
+                bts.add(Button(text = 'Цвет марки: '  + ch_info['color_mark'], callback_data = 'open color_mark'))
                 bts.add(Button(text = 'Стиль шрифта марки: ' + ch_info['font_style_mark'], callback_data = 'open font_style '))
 
             text_ch_info = 'Настройки канала: *' + self.bot.get_chat(ch_info['id']).title+'*'
