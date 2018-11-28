@@ -40,16 +40,20 @@ class Private(object):
             self.view.ch_setting(user_id, is_new = True)
             self.db.user_set(user_id, 'menu_select', 'ch_sett')
            
-#         elif user[1] == 'color_mark':
-#             rgba = message.text.split()
-#             if len(rgba) == 4:
-#                 for c in rgba:
-#                     if c > 0 and c <256:
-#                         self.db.channel_set(user_id, 'color_mark', message.text)
-#                         self.bot.send_message(user_id, 'Цвет марки встановлен!')
-#                         self.view.ch_setting(user_id)
-#                         return
-#             self.bot.send_message(user)
+        elif user[1] == 'color_mark':
+            rgba = message.text.split()
+            if len(rgba) == 4:
+                for c in rgba:
+                    if int(c) > 0 and int(c) <256:
+                        self.db.channel_set(user_id, 'color_mark', message.text)
+                        self.bot.send_message(user_id, 'Цвет марки встановлен!')
+                        self.view.ch_setting(user_id, is_new = True)
+                        return
+            bts = InlineKeyboardMarkup()
+            bts.add(InlineKeyboardButton(text = '⬅️ Назад', callback_data='open ch_sett'))
+        
+            self.view.send(user_id, text = 'Неверно введи например\n`200 150 20 150`', markup = bts, is_new = True)
+
                     
                         
                 

@@ -39,7 +39,7 @@ class CallBack(object):
 
         elif cmd[0] == 'open':
             if 'ch_id' in args:
-                print(99)
+                
                 self.db.user_set(user_id, 'group_select', args['ch_id'])
                 args = {}
             self.db.user_set(user_id, 'menu_select', cmd[1])

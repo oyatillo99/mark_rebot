@@ -15,8 +15,9 @@ class View(object):
             if 'is_new' in kwarg:
                 self.bot.delete_message(user_id, msg_id)
                 msg_id = None
+                del kwarg['is_new']
 
-            text, buttons = func(self, user_id)
+            text, buttons = func(self, user_id, **kwarg)
             
             if len(text.split('][')) > 1:
                 print(text.split('][')[1])
@@ -133,7 +134,7 @@ class View(object):
         ch_id = self.db.user_get(user_id, 'group_select')
         photo_id = self.db.get_photo_mark_id(user_id)
         bts = markup()
-        bts.add(Button(text = '⬅️ Назад ', callback_data = 'open ch_sett $is_new=True'),
+        bts.add(Button(text = ' ⬅️ Назад ', callback_data = 'open ch_sett $is_new=True'),
                 Button(text = 'Новая',    callback_data = 'open set_mark $is_new=True'))
 
         
@@ -155,8 +156,8 @@ class View(object):
     @gs_info     
     def color_mark(self, user_id):
         bts = markup()
-        bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open ch_sett'))
-        text = 'пришлите текст в формате RGBA \nnnn nnn nnn nnn'
+        bts.add(Button(text = '⬅️ Назад', callback_data='open ch_sett'))
+        text = 'Пришлите текст в формате RGBA \nnnn nnn nnn nnn'
         return text, bts
 
     
@@ -166,7 +167,7 @@ class View(object):
         bts = markup()
         bts.add(Button(text='⬅️ Назад', callback_data = 'open main'))
 
-        text = '''Mark Rebot v0.0.8
+        text = '''Mark Rebot v0.0.9
 Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
         '''
 

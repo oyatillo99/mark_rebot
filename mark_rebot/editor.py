@@ -55,7 +55,7 @@ class Editor(object):
     def add_textmark(self,in_image, group):
         color = tuple(map(int, group['color_mark'].split()))
         url_for_font_style = 'fonts/'+group['font_style_mark']+'.ttf'
-        mark_size = int(group['mark_size']) * 3
+        mark_size = int(group['mark_size']) * 2
 
         base = Image.open(io.BytesIO(in_image)).convert('RGBA')
         main_W, main_H = base.size
