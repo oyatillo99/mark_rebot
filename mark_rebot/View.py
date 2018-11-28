@@ -160,13 +160,12 @@ class View(object):
     
 
     @gs_info
-    def bot_info(self, user_id, msg_id):
+    def bot_info(self, user_id):
         bts = markup()
-        bts.add(Button(text='⬅️ Назад', callback_data = 'list_ch_infos main_menu'))
+        bts.add(Button(text='⬅️ Назад', callback_data = 'open main'))
 
-        text = '''
-        Mark Rebot v0.2
-        Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMaistr
+        text = '''Mark Rebot v0.0.8
+Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
         '''
 
         return text, bts

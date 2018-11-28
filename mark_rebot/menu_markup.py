@@ -6,7 +6,7 @@ def main_bts():
 
     list_group = button(text="Список каналов", callback_data = 'open ch_list')
     setting = button(text="Настройки", callback_data = 'f f f')
-    info = button(text="О боте", callback_data = 'main bot_info')
+    info = button(text="О боте", callback_data = 'open bot_info')
     bts.add(list_group,info)
     return bts
 

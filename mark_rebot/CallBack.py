@@ -13,6 +13,7 @@ class CallBack(object):
             'pos_mark'  : view.pos_mark,
             'font_style': view.font_style,
             'photo_mark': view.photo_mark,
+            'bot_info'  : view.bot_info,
         }
 
 
