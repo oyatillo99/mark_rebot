@@ -14,6 +14,7 @@ class CallBack(object):
             'font_style': view.font_style,
             'photo_mark': view.photo_mark,
             'bot_info'  : view.bot_info,
+            'color_mark': view.color_mark,
         }
 
 
