@@ -46,9 +46,9 @@ def pos_bts():
 def fonts_button():
     bts = markup()
     bts.add(button(text='⬅️ Назад',  callback_data='open ch_sett'))
-    bts.add(button(text='OpenSans',  callback_data='set ch font OpenSans'))
-    bts.add(button(text='Raleway',  callback_data='set ch font Raleway'))
-    bts.add(button(text='Pixel',  callback_data='set ch font Pixel'))
+    bts.add(button(text='OpenSans',  callback_data='set ch font_style_mark OpenSans'))
+    bts.add(button(text='Raleway',  callback_data='set ch font_style_mark Raleway'))
+    bts.add(button(text='Pixel',  callback_data='set ch font_style_mark Pixel'))
     return bts
 
     
