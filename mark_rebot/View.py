@@ -9,10 +9,14 @@ class View(object):
     
         
     def gs_info(func):
-        def wrapper(self, user_id, is_new = False, **kwarg):
-            msg_id = self.db.msg_id(user_id) if not is_new else None
+        def wrapper(self, user_id, **kwarg):
+            print('Kwargs: ', kwarg)
+            msg_id = self.db.msg_id(user_id)
+            if 'is_new' in kwarg:
+                self.bot.delete_message(user_id, msg_id)
+                msg_id = None
 
-            text, buttons = func(self, user_id, **kwarg)
+            text, buttons = func(self, user_id)
             
             if len(text.split('][')) > 1:
                 print(text.split('][')[1])
@@ -129,8 +133,8 @@ class View(object):
         ch_id = self.db.user_get(user_id, 'group_select')
         photo_id = self.db.get_photo_mark_id(user_id)
         bts = markup()
-        bts.add(Button(text = '⬅️ Назад ', callback_data = 'open ch_sett new_msg=True'),
-                Button(text = 'Новая',    callback_data = 'open set_mark'))
+        bts.add(Button(text = '⬅️ Назад ', callback_data = 'open ch_sett $is_new=True'),
+                Button(text = 'Новая',    callback_data = 'open set_mark $is_new=True'))
 
         
         return 'PHG]['+photo_id, bts
@@ -144,12 +148,12 @@ class View(object):
         return 'Вибирете позицию марки', menu_markup.pos_bts()
 
     @gs_info
-    def font_style(self, user_id, ch_id):
+    def font_style(self, user_id):
         text = 'Установите шрифт текста'
         return text, menu_markup.fonts_button()
 
     @gs_info     
-    def set_color(self, user_id, msg_id):
+    def set_color(self, user_id):
         text = 'пришлите текст в формате RGBA \nnnn nnn nnn nnn'
         return text, None
 
