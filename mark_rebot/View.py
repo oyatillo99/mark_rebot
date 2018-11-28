@@ -154,8 +154,10 @@ class View(object):
 
     @gs_info     
     def color_mark(self, user_id):
+        bts = markup()
+        bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open ch_sett'))
         text = 'пришлите текст в формате RGBA \nnnn nnn nnn nnn'
-        return text, None
+        return text, bts
 
     
 
