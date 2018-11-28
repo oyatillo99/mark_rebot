@@ -153,7 +153,7 @@ class View(object):
         return text, menu_markup.fonts_button()
 
     @gs_info     
-    def set_color(self, user_id):
+    def color_mark(self, user_id):
         text = 'пришлите текст в формате RGBA \nnnn nnn nnn nnn'
         return text, None
 
