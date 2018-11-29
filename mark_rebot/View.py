@@ -129,6 +129,13 @@ class View(object):
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open ch_sett'))
         return 'Пришлите текст или фото марку', bts
+    
+    @gs_info
+    def del_ch(self, user_Id):
+        btn = markup()
+        btn.add(Button(text = ' ⬅️ Отмена  ', callback_data='open ch_sett'))
+        btn.add(Button(text = 'Удалить!', callback_data='del ch_sett'))
+        return 'Удалить настройки канала?', btn
 
     @gs_info
     def photo_mark(self, user_id):
