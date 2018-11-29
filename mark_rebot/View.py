@@ -109,7 +109,8 @@ class View(object):
             self.user_set(user_id, 'menu_select', 'set_mark')
                 
         else:
-            bts.add(Button(text='Статус: '        + ch_info['status'], callback_data = 'set ch status'))
+            bts.add(Button(text='Статус: '        + ch_info['status'], callback_data = 'set ch status')
+                   Button(text='Удалить настройки', callback_data = 'open del_ch'))
             bts.add(Button(text='Размер марки: '  + str(ch_info['mark_size']) + '%', callback_data = 'open mark_size'))
             bts.add(Button(text='Позиция марки: ' + ch_info['position_mark'], callback_data = 'open pos_mark'))
 
