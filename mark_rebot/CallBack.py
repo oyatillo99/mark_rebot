@@ -45,3 +45,7 @@ class CallBack(object):
             self.db.user_set(user_id, 'menu_select', cmd[1])
             self.map_method[cmd[1]](user_id, **args)
             
+        elif cmd[0] == 'del':
+            if cmd[1] == 'ch_sett':
+                self.db.del_ch_sett(user_id)
+            
