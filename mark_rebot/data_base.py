@@ -125,6 +125,11 @@ class DB(object):
             }
         else:
             return False
+          
+    def del_ch_sett(self, user_id):
+        with self.conn:
+            with self.conn.cursor() as cur:
+              cur.execute("DELETE FROM groups_setting WHERE")
     
     def switch_status(self, user_id):
          with self.conn:
