@@ -40,7 +40,7 @@ def pos_bts():
                     
     bts.add(button(text='↙️',     callback_data='set ch position_mark down_left'), 
                     button(text='⬇️', callback_data='set ch position_mark down'),
-                    button(text='↘️', callback_data='set ch position_mark down_rignt'))
+                    button(text='↘️', callback_data='set ch position_mark down_right'))
     return bts
 
 def fonts_button():
