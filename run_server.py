@@ -1,13 +1,16 @@
 import os
 import flask
 from telebot import types
+import logging
 
 import config 
 from main import bot
  
 server = flask.Flask(__name__)
  
- 
+log = logging.getLogger('workzeug')
+log.setLevel(logging.ERROR)
+
 @server.route('/' + config.TOKEN, methods=['POST'])
 def get_message():
     bot.process_new_updates([types.Update.de_json(
