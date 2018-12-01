@@ -202,7 +202,7 @@ class View(object):
         bts = markup()
         bts.add(Button(text='⬅️ Назад', callback_data = 'open main'))
 
-        text = '''Mark Rebot v0.0.9
+        text = '''Mark Rebot v0.0.7
 Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
         '''
 
