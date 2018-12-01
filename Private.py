@@ -89,8 +89,8 @@ class Private(object):
         
         else:       
             self.db.new_channel(user_id, msg.chat.id, msg.chat.title) 
-            self.view.send(user_id = user_id, text = f'Канал *{msg.chat.title}* добавлен!', is_new = True, markup = None)
-            
+            self.view.send(user_id = user_id, text = f'Канал *{msg.chat.title}* добавлен!\nСекуну..', is_new = True, markup = None)
+            sleep(3)
             self.view.ch_setting(user_id, is_new = True)
             print('Sucessful added chanel!')
             
