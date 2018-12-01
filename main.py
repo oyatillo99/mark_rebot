@@ -1,10 +1,10 @@
-print('Starting..  ', end='')
+print('Starting..')
 import telebot
-from mark_rebot.Private import Private
-from mark_rebot.View import View
-from mark_rebot.CallBack import CallBack
-from mark_rebot.data_base import DB
-from mark_rebot.editor import Editor
+from Private import Private
+from View import View
+from CallBack import CallBack
+from data_base import DB
+from editor import Editor
 try:
 	import local_config as config
 except:

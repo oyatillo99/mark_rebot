@@ -15,6 +15,7 @@ class CallBack(object):
             'photo_mark': view.photo_mark,
             'bot_info'  : view.bot_info,
             'color_mark': view.color_mark,
+            'del_ch_sett':view.del_ch_sett,
         }
 
 
@@ -48,4 +49,11 @@ class CallBack(object):
         elif cmd[0] == 'del':
             if cmd[1] == 'ch_sett':
                 self.db.del_ch_sett(user_id)
+                self.view.ch_list(user_id)
+        elif cmd[0] == 'add':
+            if cmd[1] == 'ch_sett':
+                self.db.new_channel(user_id, args['ch_id'])
+                self.db.user_set(user_id, 'group_select', args['ch_id'])
+                self.view.ch_setting(user_id,)
+
             

@@ -41,19 +41,23 @@ class Private(object):
             self.db.user_set(user_id, 'menu_select', 'ch_sett')
            
         elif user[1] == 'color_mark':
-            rgba = message.text.split()
-            if len(rgba) == 4:
-                for c in rgba:
-                    if int(c) > 0 and int(c) <256:
-                        self.db.channel_set(user_id, 'color_mark', message.text)
-                        self.bot.send_message(user_id, 'Цвет марки встановлен!')
-                        self.view.ch_setting(user_id, is_new = True)
-                        return
             bts = InlineKeyboardMarkup()
             bts.add(InlineKeyboardButton(text = '⬅️ Назад', callback_data='open ch_sett'))
-        
-            self.view.send(user_id, text = 'Неверно введи например\n`200 150 20 150`', markup = bts, is_new = True)
-
+            rgba = message.text.split()
+            
+            if len(rgba) == 4:
+                for c in rgba:
+                    if not c.isdigit() or int(c) < 0 or int(c) > 256: 
+                      
+                        self.view.send(user_id, text = 'Неверно введи например\n`200 150 20 150`', markup = bts, is_new = True)
+                        return
+                self.db.channel_set(user_id, 'color_mark', message.text)
+                self.bot.send_message(user_id, 'Цвет марки встановлен!')
+                self.view.ch_setting(user_id, is_new = True)
+            else:
+                self.view.send(user_id, text = 'Неверно введи например\n`200 150 20 150`', markup = bts, is_new = True)
+                
+                        
                     
                         
                 
@@ -67,27 +71,27 @@ class Private(object):
         bts.add(InlineKeyboardButton(text = '⬅️ Назад', callback_data='open ch_list del_up'))
         txt_error = None
         if not username_ch[0] =='@':
-            txt_error = 'Это не username Канала! \nПовторите или нажмите \'⬅️ Назад\''
+            username_ch = '@' + username_ch
+        
+        try:
+            msg = self.bot.send_message(username_ch, 'Hello:)')
+        except: 
+            txt_error = 'Этот канал не существует или я не администратор! \nПовторите или нажмите \'⬅️ Назад\''
         else:
-            try:
-                msg = self.bot.send_message(username_ch, 'Hello:)')
-            except: 
-                txt_error = 'Этот канал не существует или я не администратор! \nПовторите или нажмите \'⬅️ Назад\''
-            else:
-                self.bot.delete_message(username_ch, msg.message_id)
+            self.bot.delete_message(username_ch, msg.message_id)
 
-                if msg.chat.id in self.db.get_groups_id(user_id):
-                    txt_error = 'Этот канал уже добавлен! \nПовторите или нажмите \'⬅️ Назад\''
-            
+            if msg.chat.id in self.db.get_groups_id(user_id):
+                txt_error = 'Этот канал уже добавлен! \nПовторите или нажмите \'⬅️ Назад\''
+        
         if txt_error:
             self.view.send(user_id = user_id, text = txt_error, is_new = True,  markup = bts)
         
         
         else:       
-            self.db.new_group(user_id, msg.chat.id) 
+            self.db.new_channel(user_id, msg.chat.id, msg.chat.title) 
             self.view.send(user_id = user_id, text = f'Канал *{msg.chat.title}* добавлен!', is_new = True, markup = None)
             
-            self.view.ch_setting(user_id, ch_id = msg.chat.id, is_new = True)
+            self.view.ch_setting(user_id, is_new = True)
             print('Sucessful added chanel!')
             
 

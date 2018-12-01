@@ -1,7 +1,9 @@
 from telebot.types import InlineKeyboardMarkup as markup
 from telebot.types import InlineKeyboardButton as button
 
-def main_bts():
+
+
+def main():
     bts = markup(row_width=1)
 
     list_group = button(text="Список каналов", callback_data = 'open ch_list')
@@ -12,7 +14,7 @@ def main_bts():
 
 
 
-def size_bts():
+def mark_size():
     bts = markup()  
     bts.add(button(text='⬅️ Назад', callback_data='open ch_sett'),
                     button(text='7%', callback_data='set ch mark_size 7'),
@@ -26,7 +28,7 @@ def size_bts():
     return bts
 
 
-def pos_bts():
+def pos_mark():
     bts = markup()
     bts.add(button(text='⬅️ Назад',  callback_data='open ch_sett'))
 
@@ -43,7 +45,7 @@ def pos_bts():
                     button(text='↘️', callback_data='set ch position_mark down_right'))
     return bts
 
-def fonts_button():
+def font_style():
     bts = markup()
     bts.add(button(text='⬅️ Назад',  callback_data='open ch_sett'))
     bts.add(button(text='OpenSans',  callback_data='set ch font_style_mark OpenSans'))
@@ -54,6 +56,7 @@ def fonts_button():
     
 
 
-
-
+def get_bts(name_bts):
+    return eval(name_bts)()
+    
 

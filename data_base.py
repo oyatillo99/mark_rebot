@@ -3,7 +3,6 @@ import datetime
 
 
 
-
 class DB(object):
                 
     def __init__(self, config):
@@ -67,15 +66,15 @@ class DB(object):
     def get_groups_id(self, user_id):
         with self.conn:
             with self.conn.cursor() as cur:
-                cur.execute(f"SELECT id FROM groups_setting WHERE user_id = {user_id}")
+                cur.execute(f"SELECT id, past_name_ch FROM groups_setting WHERE user_id = {user_id}")
                 groups =  cur.fetchall()
 
-        return list(map(lambda x: x[0], groups))
+        return groups
          
 
-    def new_group(self, user_id, group_id):
+    def new_channel(self, user_id, group_id, channel_title):
         date = datetime.datetime.today()
-        
+        channel_title 
         with self.conn:
             with self.conn.cursor() as cur:
                 cur.execute("""INSERT INTO groups_setting (
@@ -89,12 +88,13 @@ class DB(object):
                     mark_size,
                     color_mark,
                     position_mark,
-                    font_style_mark  
+                    font_style_mark,
+                    past_name_ch
                 )
                     VALUES (%s, %s,
                     0, %s ,
                    'on', 'off', 'off', 15, '170 123 120 150',
-                    'down_right', 'Raleway' )""", (group_id, user_id , date,))
+                    'down_right', 'Raleway', %s);""", (group_id, user_id , date, channel_title,))
         
                 cur.execute("""UPDATE users
                     SET group_count = group_count + 1
@@ -111,17 +111,18 @@ class DB(object):
                 group =  cur.fetchone()
         if group:
             return {
-                'id':group[0],             
-                'user_id':group[1],
+                'id'             :group[0],             
+                'user_id'        :group[1],
                 'post_edit_count':group[2],
-                'date_add':group[3],
-                'status':group[4],
-                'id_photo_mark':group[5],
-                'text_mark':group[6],
-                'mark_size':group[7],
-                'color_mark':group[8],
-                'position_mark':group[9],
-                'font_style_mark':group[10] 
+                'date_add'       :group[3],
+                'status'         :group[4],
+                'id_photo_mark'  :group[5],
+                'text_mark'      :group[6],
+                'mark_size'      :group[7],
+                'color_mark'     :group[8],
+                'position_mark'  :group[9],
+                'font_style_mark':group[10],
+                'past_name_ch'   :group[11]   
             }
         else:
             return False
@@ -129,8 +130,11 @@ class DB(object):
     def del_ch_sett(self, user_id):
         with self.conn:
             with self.conn.cursor() as cur:
-              cur.execute("DELETE FROM groups_setting WHERE")
-    
+                cur.execute("DELETE FROM groups_setting WHERE id = (select group_select from users where id = %s);",(user_id,))
+                cur.execute("""UPDATE users
+                    SET group_count = group_count - 1
+                    WHERE id = %s;""",(user_id,))
+
     def switch_status(self, user_id):
          with self.conn:
             with self.conn.cursor() as cur:

@@ -2,6 +2,7 @@ import io
 from pprint import pprint
 from telebot import types
 from PIL import Image, ImageDraw, ImageFont
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 class Editor(object):
@@ -22,15 +23,25 @@ class Editor(object):
         chat_id = message.chat.id
         msg_id = message.message_id
         
-        pprint(group)
 
         if not group:
             print('This channel not found, return')
+            
+            for admin in self.bot.get_chat_administrators(chat_id):
+                if admin.status == 'creator':
+                    print(admin.user.id)
+                    markup = InlineKeyboardMarkup()
+                    markup.add(InlineKeyboardButton(text = 'Настроить канал', callback_data = 'add ch_sett $ch_id=' + str(chat_id)))
+                    
+                    msg_id = self.bot.send_message(admin.user.id, 'Превет оказалось я админ в твоей групе и я не знаю какую марку ставть в твоих постах. Если не хочешь ето видеть можешь удалить меня из администраторов.', reply_markup = markup)
+                    self.db.msg_id(admin.user.id, msg_id.message_id)
+            
+            
             return
         if group['status'] =='off' or group['id_photo_mark'] == 'off' and group['text_mark'] == 'off':
             print('Channel status off, return')
             return
-
+        pprint(group)
         in_photo = self.download_photo(message.photo[-1].file_id)
 
 
