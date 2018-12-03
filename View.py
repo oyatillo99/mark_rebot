@@ -34,7 +34,7 @@ class View(object):
                 print(text.split('][')[1])
                 self.bot.delete_message(user_id, msg_id)
                 
-                msg_id2 = self.bot.send_photo(user_id, (text.split('][')[1]), reply_markup = bts).message_id
+                msg_id2 = self.bot.send_document(user_id, (text.split('][')[1]), reply_markup = bts).message_id
 
             elif msg_id:
                 try:
@@ -133,15 +133,15 @@ class View(object):
 
         if ch_info['id_photo_mark'] == 'off' and ch_info['text_mark'] == 'off':
             bts.add(Button(text = '⬅️ Назад ', callback_data='open ch_list')) 
-            text_ch_info = 'Пришлите текст или фото марку'
+            text_ch_info = 'Для начала пришли мне фото (*ФАЙЛОМ*) или текст'
             self.db.user_set(user_id, 'menu_select', 'set_mark')
                 
         else:
-            bts.add(Button(text = '⬅️ Назад ', callback_data='open ch_list'),
+            bts.add(Button(text='⬅️ Назад ', callback_data='open ch_list'),
                     Button(text='Статус: '+ ch_info['status'], callback_data = 'set ch status'))
-
-            bts.add(Button(text='Размер марки: '  + str(ch_info['mark_size']) + '%', callback_data = 'open mark_size'))
-            bts.add(Button(text='Позиция марки: ' + ch_info['position_mark'], callback_data = 'open pos_mark'))
+            bts.add(Button(text='Размер марки: ' + str(ch_info['mark_size']) + '%', callback_data = 'open mark_size'))
+            bts.add(Button(text='Позиция марки: '+ ch_info['position_mark'], callback_data = 'open pos_mark'))
+            bts.add(Button(text='Прозрачность: ' + str(ch_info['transparent_mark']) + '%', callback_data = 'open transparent_mark'))
 
             if not ch_info['id_photo_mark'] == 'off':
                 bts.add(Button(text = 'Фото марки', callback_data = 'open photo_mark'))
@@ -157,7 +157,7 @@ class View(object):
     def set_mark(self, user_id): 
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open ch_sett'))
-        return 'Пришлите текст или фото марку', bts
+        return 'Пришли мне фото (*ФАЙЛОМ*) или текст', bts
     
     @gs_info
     def del_ch_sett(self, user_Id):

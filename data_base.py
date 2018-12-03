@@ -90,12 +90,13 @@ class DB(object):
                     color_mark,
                     position_mark,
                     font_style_mark,
-                    past_name_ch
+                    past_name_ch,
+                    transparent_mark
                 )
                     VALUES (%s, %s,
                     0, %s ,
                    'on', 'off', 'off', 15, '170 123 120 150',
-                    'down_right', 'Raleway', %s);""", (ch_id, user_id , date, channel_title,))
+                    'down_right', 'Raleway', %s, 100);""", (ch_id, user_id , date, channel_title,))
         
                 cur.execute("""UPDATE users
                     SET group_count = group_count + 1
@@ -113,18 +114,19 @@ class DB(object):
                 group =  cur.fetchone()
         if group:
             return {
-                'id'             :group[0],             
-                'user_id'        :group[1],
-                'post_edit_count':group[2],
-                'date_add'       :group[3],
-                'status'         :group[4],
-                'id_photo_mark'  :group[5],
-                'text_mark'      :group[6],
-                'mark_size'      :group[7],
-                'color_mark'     :group[8],
-                'position_mark'  :group[9],
-                'font_style_mark':group[10],
-                'past_name_ch'   :group[11]   
+                'id'              :group[0],             
+                'user_id'         :group[1],
+                'post_edit_count' :group[2],
+                'date_add'        :group[3],
+                'status'          :group[4],
+                'id_photo_mark'   :group[5],
+                'text_mark'       :group[6],
+                'mark_size'       :group[7],
+                'color_mark'      :group[8],
+                'position_mark'   :group[9],
+                'font_style_mark' :group[10],
+                'past_name_ch'    :group[11],   
+                'transparent_mark':group[12]
             }
         else:
             return False

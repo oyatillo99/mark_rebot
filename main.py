@@ -17,14 +17,16 @@ private = Private(bot, db, view)
 call_back = CallBack(view, db)
 editor = Editor(bot, db)
 
+@bot.message_handler(content_types = ['document'])
+def chanel_photo_handler(message):
+	print(message)
+	print(message.document.thumb)
+	private.main(message, is_doc=True)
 
 @bot.message_handler(content_types = ['text'])
 def private_handler(message):
 	private.main(message)
 
-@bot.message_handler(content_types = ['photo'])
-def private_handler(message):
-	private.main(message, is_photo=True)
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):

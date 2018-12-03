@@ -8,7 +8,7 @@ class Private(object):
         self.db = db
         self.view = view
 
-    def main(self, message, is_photo = False):
+    def main(self, message, is_doc = False):
         print(f'\nMessage from user: {message.from_user.first_name}, text: {message.text}, user id: {message.from_user.id}')
         user_id = message.from_user.id
         user = self.db.is_user(user_id)
@@ -27,8 +27,9 @@ class Private(object):
 
         elif user[1] == 'set_mark':
             
-            if message.photo:
-                photo_id = message.photo[-1].file_id
+                
+            if is_doc:
+                photo_id =  message.document.file_id
                 self.db.channel_set(user_id, 'text_mark', 'off')
                 self.db.channel_set(user_id, 'id_photo_mark', photo_id)
                 self.bot.send_message(user_id, 'Фото марка встановлен!')
