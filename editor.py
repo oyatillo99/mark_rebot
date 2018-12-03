@@ -87,6 +87,7 @@ class Editor(object):
 
 
     def add_watermark(self,in_image,mark_size,position,watermark_image):
+
         input_image = Image.open(io.BytesIO(in_image)).convert("RGBA")
         main_W, main_H = input_image.size
         watermark = Image.open(io.BytesIO(watermark_image)).convert("RGBA")
@@ -103,9 +104,13 @@ class Editor(object):
         transparent.paste(input_image, (0,0))
         transparent.paste(watermark, box = self.pos_conf(main_W, main_H, mark_W, mark_H, position),mask=watermark) # mask=watermark
 
+
+
         bytes_photo = io.BytesIO()
         transparent.save(bytes_photo, format='PNG')
         return bytes_photo
+
+
 
     def photo_edit(self,chat_id,msg_id,bytes_photo, caption):
         print('Edit photo... , msg_id: {}, name_photo: {}'.format(chat_id, msg_id))             

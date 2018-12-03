@@ -105,7 +105,8 @@ class DB(object):
     def get_group(self, ch_id = None, user_id = None):
         if user_id:
             ch_id = self.user_get(user_id, 'group_select')
-        
+            
+        print(ch_id)
         with self.conn:
             with self.conn.cursor() as cur:
                 cur.execute("SELECT * FROM groups_setting WHERE id = %s;",(ch_id,))
