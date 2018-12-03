@@ -15,8 +15,8 @@ class Private(object):
 
         if not user:
             self.db.new_user(user_id)    
-            print('Add user on db', is_new = True)
-            self.view.welcom(user_id)
+            print('Add user on db')
+            self.view.welcom(user_id, is_new = True)
 
         elif message.text in ['/start','/help','/menu', 'm']:
             self.view.main(user_id, is_new = True)
@@ -70,6 +70,10 @@ class Private(object):
         bts = InlineKeyboardMarkup()
         bts.add(InlineKeyboardButton(text = '⬅️ Назад', callback_data='open ch_list del_up'))
         txt_error = None
+
+        if len(username_ch.split('t.me/')) > 1:
+            username_ch = username_ch.split('t.me/')[1]
+
         if not username_ch[0] =='@':
             username_ch = '@' + username_ch
         
@@ -79,8 +83,9 @@ class Private(object):
             txt_error = 'Этот канал не существует или я не администратор! \nПовторите или нажмите \'⬅️ Назад\''
         else:
             self.bot.delete_message(username_ch, msg.message_id)
-
-            if msg.chat.id in self.db.get_groups_id(user_id)[0]:
+            ch_ids = self.db.get_groups_id(user_id)
+            print(ch_ids)
+            if len(ch_ids) > 0 and msg.chat.id in ch_ids[0]:
                 txt_error = 'Этот канал уже добавлен! \nПовторите или нажмите \'⬅️ Назад\''
         
         if txt_error:
