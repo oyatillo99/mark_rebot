@@ -72,7 +72,8 @@ class DB(object):
         return groups
          
 
-    def new_channel(self, user_id, group_id, channel_title):
+    def new_channel(self, user_id, ch_id, channel_title):
+      print('Log add ch arg: ', user_id, ch_id, channel_title)
         date = datetime.datetime.today()
         channel_title 
         with self.conn:
@@ -94,7 +95,7 @@ class DB(object):
                     VALUES (%s, %s,
                     0, %s ,
                    'on', 'off', 'off', 15, '170 123 120 150',
-                    'down_right', 'Raleway', %s);""", (group_id, user_id , date, channel_title,))
+                    'down_right', 'Raleway', %s);""", (ch_id, user_id , date, channel_title,))
         
                 cur.execute("""UPDATE users
                     SET group_count = group_count + 1
