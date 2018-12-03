@@ -60,10 +60,10 @@ class View(object):
     @gs_info
     def main(self, user_id):
         self.db.user_set(user_id, 'menu_select', 'main')
-        text = '--- Главное меню: ---'
+        text = '\_/\_/\_/ Главное меню \\\_\\\_\\\_ '
         return text, 'main'
 
-
+    @gs_info
     def welcom(self, user_id):
         bts = markup()
         bts.add(Button(text='OK', callback_data='open main'))
@@ -79,7 +79,7 @@ class View(object):
         ch_list.add(Button(text='⬅️ Назад', callback_data = 'open main'),
                     Button(text=' ➕ ', callback_data = 'open ch_add'))
         if channels:
-            text_lis = '=-=- Список каналов: -=-='
+            text_lis = '\_/\_/\_/ Список каналов \\\_\\\_\\\_'
 
             for ch in channels:
                 try:
@@ -113,12 +113,14 @@ class View(object):
 
         print(f'View menu setting chanel  for user: {user_id}')
         
-        
+
         bts = markup()
         
 
         try:
+            print('ch_info:  ', ch_info)
             title = self.bot.get_chat(ch_info['id']).title
+
             if not title == ch_info['past_name_ch']:
                 self.db.channel_set(user_id, 'past_name_ch', title)
                 ch_info['past_name_ch'] = title
