@@ -73,7 +73,7 @@ class DB(object):
          
 
     def new_channel(self, user_id, ch_id, channel_title):
-      print('Log add ch arg: ', user_id, ch_id, channel_title)
+        print('Log add ch arg: ', user_id, ch_id, channel_title)
         date = datetime.datetime.today()
         channel_title 
         with self.conn:
