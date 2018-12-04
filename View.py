@@ -93,8 +93,12 @@ class View(object):
        
         return text_lis, ch_list
 
-        
-
+    @gs_info
+    def support(self, user_id):
+        bts = markup()
+        bts.add(Button(text = '⬅️ Назад ', callback_data='open main'))
+        return 'Пиши прямо сюда в конце визови команду /start', bts
+    
     @gs_info
     def ch_add(self, user_id):
         bts = markup()  
@@ -116,7 +120,6 @@ class View(object):
         
 
         try:
-            print('ch_info:  ', ch_info)
             title = self.bot.get_chat(ch_info['id']).title
 
             if not title == ch_info['past_name_ch']:
@@ -168,13 +171,10 @@ class View(object):
         return 'Виберете прозрачность марки', 'transparent_mark'
     @gs_info
     def photo_mark(self, user_id):
-        ch_id = self.db.user_get(user_id, 'group_select')
         photo_id = self.db.get_photo_mark_id(user_id)
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад ', callback_data = 'open ch_sett $is_new=True'),
                 Button(text = 'Новая',    callback_data = 'open set_mark $is_new=True'))
-
-        
         return 'PHG]['+photo_id, bts
 
     @gs_info
