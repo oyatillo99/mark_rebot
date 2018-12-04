@@ -10,8 +10,7 @@ class CallBack(object):
             'ch_list'    : view.ch_list,
             'set_mark'   : view.set_mark,
             'mark_size'  : view.mark_size,
-            'pos_mark'   : view.pos_mark,
-            'support'    : view.support,
+            'pos_mark'   : view.pos_mark,            
             'font_style' : view.font_style,
             'photo_mark' : view.photo_mark,
             'bot_info'   : view.bot_info,
@@ -40,14 +39,19 @@ class CallBack(object):
                     self.db.channel_set(user_id, cmd[2], cmd[3])
                 self.view.ch_setting(user_id)
 
+                    
         elif cmd[0] == 'open':
-            if 'ch_id' in args:
-                
-                self.db.user_set(user_id, 'group_select', args['ch_id'])
-                args = {}
-            self.db.user_set(user_id, 'menu_select', cmd[1])
-            self.map_method[cmd[1]](user_id, **args)
+            try:
+                if 'ch_id' in args:
+                    self.db.user_set(user_id, 'group_select', args['ch_id'])
+                    args = {}
+                self.db.user_set(user_id, 'menu_select', cmd[1])
+                self.map_method[cmd[1]](user_id, **args)
+            except:
+                self.view.main(user_id)
             
+            
+
         elif cmd[0] == 'del':
             if cmd[1] == 'ch_sett':
                 self.db.del_ch_sett(user_id)

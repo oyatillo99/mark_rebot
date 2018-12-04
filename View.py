@@ -93,17 +93,13 @@ class View(object):
        
         return text_lis, ch_list
 
-    @gs_info
-    def support(self, user_id):
-        bts = markup()
-        bts.add(Button(text = '⬅️ Назад ', callback_data='open main'))
-        return 'Пиши прямо сюда в конце визови команду /start', bts
+
     
     @gs_info
     def ch_add(self, user_id):
         bts = markup()  
         bts.add(Button(text = '⬅️ Назад ', callback_data='open ch_list'))
-        return 'Добавь меня в администраторы, \nи отправь мне username канала\n Можно без @', bts 
+        return 'Добавь меня в администраторы, \nи отправь мне *username* канала\n Можно без @ \n Например `@yor_channel`', bts 
         
 
     @gs_info
@@ -194,7 +190,7 @@ class View(object):
     def color_mark(self, user_id):
         bts = markup()
         bts.add(Button(text = '⬅️ Назад', callback_data='open ch_sett'))
-        text = 'Пришлите текст в формате RGBA \nnnn nnn nnn nnn'
+        text = 'Пришлите текст в формате RGBA \nnnn nnn nnn'
         return text, bts
 
     

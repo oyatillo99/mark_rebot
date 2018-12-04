@@ -17,7 +17,6 @@ class Private(object):
             self.db.new_user(user_id)    
             print('Add user on db')
             self.view.welcom(user_id, is_new = True)
-
         elif message.text in ['/start','/help','/menu', 'm']:
             self.view.main(user_id, is_new = True)
 
@@ -46,7 +45,7 @@ class Private(object):
             bts.add(InlineKeyboardButton(text = '⬅️ Назад', callback_data='open ch_sett'))
             rgba = message.text.split()
             
-            if len(rgba) == 4:
+            if len(rgba) == 3:
                 for c in rgba:
                     if not c.isdigit() or int(c) < 0 or int(c) > 256: 
                       

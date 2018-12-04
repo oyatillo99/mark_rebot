@@ -4,13 +4,11 @@ from telebot.types import InlineKeyboardButton as button
 
 
 def main():
-    bts = markup(row_width=1)
-
-    support = button(text="Подержка", callback_data = 'open support')# Подлючить после доработки
+    bts = markup(row_width = 1)
     
     list_group = button(text="Список каналов", callback_data = 'open ch_list')
     info = button(text="О боте", callback_data = 'open bot_info')
-    bts.add(list_group,info)
+    bts.add(list_group, info)
     return bts
 
 

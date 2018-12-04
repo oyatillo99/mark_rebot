@@ -63,7 +63,10 @@ class Editor(object):
 
 
     def add_textmark(self,in_image, config_ed):
-        color = tuple(map(int, config_ed['color_mark'].split()))
+
+        color = list(map(int, config_ed['color_mark'].split()))
+        color.append(int((255 / 100) * config_ed['transparent_mark']))
+        print(color)
         url_for_font_style = 'fonts/'+config_ed['font_style_mark']+'.ttf'
         mark_size = int(config_ed['mark_size']) * 2
 
@@ -77,7 +80,7 @@ class Editor(object):
 
         text_W, text_H = d.textsize(config_ed['text_mark'], fnt)
         d.text(self.pos_conf(main_W, main_H, text_W, text_H,
-         config_ed['position_mark']), config_ed['text_mark'], font = fnt, fill = color)
+         config_ed['position_mark']), config_ed['text_mark'], font = fnt, fill = tuple(color))
         
         out = Image.alpha_composite(base, txt)
 
