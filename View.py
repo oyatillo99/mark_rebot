@@ -11,8 +11,8 @@ class View(object):
     def gs_info(func):
         def wrapper(self, user_id, **kwarg):
 
-            print(f'Open {func.__name__} menu for {user_id}')
-            print('Kwargs: ', kwarg)
+            print(f'Open {func.__name__} menu for {user_id} args: {kwarg}')
+           
             msg_id = self.db.msg_id(user_id)
             if 'is_new' in kwarg:
                 try:
@@ -31,7 +31,6 @@ class View(object):
 
 
             if len(text.split('][')) > 1:
-                print(text.split('][')[1])
                 self.bot.delete_message(user_id, msg_id)
                 
                 msg_id2 = self.bot.send_document(user_id, (text.split('][')[1]), reply_markup = bts).message_id
@@ -49,7 +48,6 @@ class View(object):
             
             
             if not msg_id2 == msg_id:
-                print('save')
                 self.db.msg_id(user_id, msg_id2)
         return wrapper
         
@@ -165,7 +163,9 @@ class View(object):
         btn.add(Button(text = ' ⬅️ Отмена  ', callback_data='open ch_sett'))
         btn.add(Button(text = 'Удалить!', callback_data='del ch_sett'))
         return 'Удалить настройки канала?', btn
-
+    @gs_info
+    def transparent_mark(self, user_id):
+        return 'Виберете прозрачность марки', 'transparent_mark'
     @gs_info
     def photo_mark(self, user_id):
         ch_id = self.db.user_get(user_id, 'group_select')

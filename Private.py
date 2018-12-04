@@ -9,7 +9,7 @@ class Private(object):
         self.view = view
 
     def main(self, message, is_doc = False):
-        print(f'\nMessage from user: {message.from_user.first_name}, text: {message.text}, user id: {message.from_user.id}')
+        print(f'\nMessage from user: {message.from_user.first_name}, text: {message.text}, user  {message.from_user.username}id: {message.from_user.id}')
         user_id = message.from_user.id
         user = self.db.is_user(user_id)
 

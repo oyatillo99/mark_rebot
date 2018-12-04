@@ -54,9 +54,28 @@ def font_style():
     return bts
 
     
+def transparent_mark():
+    bts = markup()
+    bts.add(button(text='⬅️ Назад',  callback_data='open ch_sett'))
+    bts.add(button(text='10%',  callback_data='set ch transparent_mark 10'),
+            button(text='20%',  callback_data='set ch transparent_mark 20'),
+            button(text='30%',  callback_data='set ch transparent_mark 30'))
+    
+    bts.add(button(text='40%',  callback_data='set ch transparent_mark 40'),
+            button(text='50%',  callback_data='set ch transparent_mark 50'),
+            button(text='70%',  callback_data='set ch transparent_mark 70'))
+    
+    bts.add(button(text='80%',  callback_data='set ch transparent_mark 80'),
+            button(text='90%',  callback_data='set ch transparent_mark 90'),
+            button(text='100%',  callback_data='set ch transparent_mark 100'))
+    return bts
+    
+    
+    
+    
 
 
+    
 def get_bts(name_bts):
     return eval(name_bts)()
-    
 

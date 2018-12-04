@@ -4,23 +4,24 @@ class CallBack(object):
         self.view = view
         self.db = db
         self.map_method = {
-            'main'      : view.main,
-            'ch_add'    : view.ch_add,
-            'ch_sett'   : view.ch_setting,
-            'ch_list'   : view.ch_list,
-            'set_mark'  : view.set_mark,
-            'mark_size' : view.mark_size,
-            'pos_mark'  : view.pos_mark,
-            'font_style': view.font_style,
-            'photo_mark': view.photo_mark,
-            'bot_info'  : view.bot_info,
-            'color_mark': view.color_mark,
-            'del_ch_sett':view.del_ch_sett,
+            'main'       : view.main,
+            'ch_add'     : view.ch_add,
+            'ch_sett'    : view.ch_setting,
+            'ch_list'    : view.ch_list,
+            'set_mark'   : view.set_mark,
+            'mark_size'  : view.mark_size,
+            'pos_mark'   : view.pos_mark,
+            'font_style' : view.font_style,
+            'photo_mark' : view.photo_mark,
+            'bot_info'   : view.bot_info,
+            'color_mark' : view.color_mark,
+            'del_ch_sett': view.del_ch_sett,
+            'transparent_mark':view.transparent_mark,
         }
 
 
     def main(self, call):
-        print(f'\nUser {call.from_user.first_name}, id:{call.from_user.id}, send data: {call.data}')
+        print(f'\nUser {call.from_user.first_name}, id:{call.from_user.id}, send data: {call.data}, username: {call.from_user.username}')
         user_id = call.from_user.id
         data = call.data.split('$')
         cmd = data[0].split()
