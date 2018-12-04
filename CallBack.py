@@ -11,6 +11,7 @@ class CallBack(object):
             'set_mark'   : view.set_mark,
             'mark_size'  : view.mark_size,
             'pos_mark'   : view.pos_mark,
+            'support'    : view.support,
             'font_style' : view.font_style,
             'photo_mark' : view.photo_mark,
             'bot_info'   : view.bot_info,
