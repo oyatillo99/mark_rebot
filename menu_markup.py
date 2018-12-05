@@ -7,8 +7,9 @@ def main():
     bts = markup(row_width = 1)
     
     list_group = button(text="Список каналов", callback_data = 'open ch_list')
+    instruction = button(text="Инструкция", callback_data = 'open instruction')
     info = button(text="О боте", callback_data = 'open bot_info')
-    bts.add(list_group, info)
+    bts.add(list_group,instruction, info)
     return bts
 
 
