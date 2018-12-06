@@ -202,6 +202,7 @@ class View(object):
 
         text = '''SetWaterMarkBot v0.0.8
 Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
+Наш чат поддержки @SetWMBotSupport
         '''
 
         return text, bts
