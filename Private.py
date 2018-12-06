@@ -12,9 +12,6 @@ class Private(object):
         print(f'\nMessage from user: {message.from_user.first_name}, text: {message.text}, user  {message.from_user.username}chat: {message.chat.username} | {message.chat.type}')
         user_id = message.from_user.id
         user = self.db.is_user(user_id)
-        if message.chat.type == 'supergroup':
-            print('Message from super group')
-            return
         if not user:
             self.db.new_user(user_id)    
             print('Add user on db')

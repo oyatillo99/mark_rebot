@@ -17,13 +17,13 @@ private = Private(bot, db, view)
 call_back = CallBack(view, db)
 editor = Editor(bot, db)
 
-@bot.message_handler(content_types = ['document'])
+@bot.message_handler(content_types = ['document'], func = lambda m: m.chat.type == 'private')
 def chanel_photo_handler(message):
-	print(message)
+	print('FILE PHOTO ')
 	print(message.document.thumb)
 	private.main(message, is_doc=True)
 
-@bot.message_handler(content_types = ['text'])
+@bot.message_handler(content_types = ['text'], func = lambda m: m.chat.type == 'private')
 def private_handler(message):
 	private.main(message)
 
