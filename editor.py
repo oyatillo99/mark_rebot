@@ -18,6 +18,7 @@ class Editor(object):
         
     def main(self, message,):
         print('\n-------------------------  START EDIT PHOTO  ------------------------------')
+        print(f'msg.id: {message.message_id}, {message.chat.id}')
         config_ed = self.db.get_group(ch_id = message.chat.id)
         caption = message.caption
         chat_id = message.chat.id
