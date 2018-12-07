@@ -50,7 +50,8 @@ class CallBack(object):
             try:
                 if 'ch_id' in args:
                     self.db.user_set(user_id, 'group_select', args['ch_id'])
-                    args = {}
+                    
+                    del args['ch_id']
                 self.db.user_set(user_id, 'menu_select', cmd[1])
                 self.map_method[cmd[1]](user_id, **args)
             except Exception as e:

@@ -28,7 +28,7 @@ class View(object):
             text, bts = func(self, user_id, **kwarg)
 
             if not type(text) is int:
-                print('Nooo')
+               
                 if type(bts) is str:
                     bts = menu_markup.get_bts(bts)
 
