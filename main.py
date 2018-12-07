@@ -41,8 +41,14 @@ def private_handler(msg):
 		markup.add(InlineKeyboardButton(text = 'Открить', callback_data = 'open ch_list'))
 		bot.send_message(user_id, 'Нужно открить настройки', reply_markup = markup)
 		return
-	
+
 	ch_info = db.get_group(user_id = user_id)
+
+
+	if ch_info['status'] =='off' or ch_info['id_photo_mark'] == 'off' and ch_info['text_mark'] == 'off':
+		print('Channel status off, return private')
+		return
+		
 	markup.add(InlineKeyboardButton(text = 'Открить навстройки', callback_data = 'open ch_sett $is_new=True, ch_id=' + str(ch_info['id'])))
 	pprint(ch_info)
 	in_photo = editor.download_photo(msg.photo[-1].file_id)
@@ -59,6 +65,7 @@ def private_handler(msg):
 	elif not ch_info['text_mark'] == 'off': 
 		type_mark = 'text_mark'
 		edit_image = editor.add_textmark(in_photo, ch_info)
+	
 	
 	bot.send_photo(user_id, photo = edit_image.getvalue(), reply_markup = markup)
 	
