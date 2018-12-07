@@ -7,9 +7,9 @@ def main():
     bts = markup(row_width = 1)
     
     list_group = button(text="Список каналов", callback_data = 'open ch_list')
-    instruction = button(text="Инструкция", callback_data = 'open instruction')
+    help = button(text="Помощь", callback_data = 'open help')
     info = button(text="О боте", callback_data = 'open bot_info')
-    bts.add(list_group, info)
+    bts.add(list_group, help, info)
     return bts
 
 
@@ -57,17 +57,17 @@ def font_style():
 def transparent_mark():
     bts = markup()
     bts.add(button(text='⬅️ Назад',  callback_data='open ch_sett'))
-    bts.add(button(text='10%',  callback_data='set ch transparent_mark 10'),
-            button(text='20%',  callback_data='set ch transparent_mark 20'),
-            button(text='30%',  callback_data='set ch transparent_mark 30'))
+    bts.add(button(text='0%',  callback_data='set ch transparent_mark 100'),
+            button(text='5%',  callback_data='set ch transparent_mark 95'),
+            button(text='10%',  callback_data='set ch transparent_mark 90'))
     
-    bts.add(button(text='40%',  callback_data='set ch transparent_mark 40'),
+    bts.add(button(text='15%',  callback_data='set ch transparent_mar 85'),
+            button(text='20%',  callback_data='set ch transparent_mark 80'),
+            button(text='25%',  callback_data='set ch transparent_mark 75'))
+    
+    bts.add(button(text='40%',  callback_data='set ch transparent_mark 60'),
             button(text='50%',  callback_data='set ch transparent_mark 50'),
-            button(text='70%',  callback_data='set ch transparent_mark 70'))
-    
-    bts.add(button(text='80%',  callback_data='set ch transparent_mark 80'),
-            button(text='90%',  callback_data='set ch transparent_mark 90'),
-            button(text='100%',  callback_data='set ch transparent_mark 100'))
+            button(text='60%',  callback_data='set ch transparent_mark 40'))
     return bts
     
     

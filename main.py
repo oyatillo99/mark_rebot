@@ -41,6 +41,7 @@ def chanel_photo_handler(message):
 print('Done')
 
 def main():
+	print('Remove webhook')
 	bot.remove_webhook()
 	bot.polling(none_stop=True)
 

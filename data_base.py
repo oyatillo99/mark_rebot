@@ -95,7 +95,7 @@ class DB(object):
                 )
                     VALUES (%s, %s,
                     0, %s ,
-                   'on', 'off', 'off', 15, '170 123 120',
+                   'on', 'off', 'off', 15, '255 255 255',
                     'down_right', 'Raleway', %s, 100);""", (ch_id, user_id , date, channel_title,))
         
                 cur.execute("""UPDATE users

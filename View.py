@@ -6,6 +6,9 @@ class View(object):
     def __init__(self, bot, db):
         self.bot = bot
         self.db = db
+        self.pos = {'top_left'    : '↖️', 'top'    :'⬆️', 'top_right'    :'↗️',
+                    'center_left' : '⬅️', 'center':'⬛', 'center_right' :'➡️',
+                    'down_left'   : '↙️', 'down'   :'⬇️', 'down_right'   :'↘️'}
     
         
     def gs_info(func):
@@ -24,29 +27,29 @@ class View(object):
 
             text, bts = func(self, user_id, **kwarg)
 
-            if type(bts) is str:
-                bts = menu_markup.get_bts(bts)
+            if not type(text) is int:
+                print('Nooo')
+                if type(bts) is str:
+                    bts = menu_markup.get_bts(bts)
 
-
-
-
-            if len(text.split('][')) > 1:
-                self.bot.delete_message(user_id, msg_id)
-                
-                msg_id2 = self.bot.send_document(user_id, (text.split('][')[1]), reply_markup = bts).message_id
-
-            elif msg_id:
-                try:
-                    msg_id2 = self.bot.edit_message_text(chat_id = user_id, message_id = msg_id,
-                    text = text, parse_mode = 'Markdown', reply_markup = bts).message_id
-                    
-                except:
-                    msg_id2 = msg_id
-                    print('Not modifed')
+                if msg_id:
+                    try:
+                        msg_id2 = self.bot.edit_message_text(chat_id = user_id, message_id = msg_id,
+                        text = text, parse_mode = 'Markdown', reply_markup = bts).message_id
+                        
+                    except:
+                        msg_id2 = msg_id
+                        print('Not modifed')
+                else:
+                    msg_id2 = self.bot.send_message(user_id, text, parse_mode = 'Markdown', reply_markup = bts).message_id
             else:
-                msg_id2 = self.bot.send_message(user_id, text, parse_mode = 'Markdown', reply_markup = bts).message_id
-            
-            
+                try:
+                    self.bot.delete_message(user_id, msg_id)
+                except Exception as e:
+                    print(e)
+                msg_id2 = text
+
+                
             if not msg_id2 == msg_id:
                 self.db.msg_id(user_id, msg_id2)
         return wrapper
@@ -93,7 +96,8 @@ class View(object):
        
         return text_lis, ch_list
 
-
+    def view_position(self, position):
+        return self.pos[position]
     
     @gs_info
     def ch_add(self, user_id):
@@ -106,8 +110,7 @@ class View(object):
     def ch_setting(self, user_id):
         
         ch_info = self.db.get_group(user_id = user_id)
-        
-
+    
 
         print(f'View menu setting chanel  for user: {user_id}')
         
@@ -134,11 +137,12 @@ class View(object):
             self.db.user_set(user_id, 'menu_select', 'set_mark')
                 
         else:
+            status = '✅' if ch_info['status'] == 'on' else '❌'
             bts.add(Button(text='⬅️ Назад ', callback_data='open ch_list'),
-                    Button(text='Статус: '+ ch_info['status'], callback_data = 'set ch status'))
+                    Button(text='Статус: '+ status, callback_data = 'set ch status'))
             bts.add(Button(text='Размер марки: ' + str(ch_info['mark_size']) + '%', callback_data = 'open mark_size'))
-            bts.add(Button(text='Позиция марки: '+ ch_info['position_mark'], callback_data = 'open pos_mark'))
-            bts.add(Button(text='Прозрачность: ' + str(ch_info['transparent_mark']) + '%', callback_data = 'open transparent_mark'))
+            bts.add(Button(text='Позиция марки: '+ self.view_position(ch_info['position_mark']), callback_data = 'open pos_mark'))
+            bts.add(Button(text='Прозрачность: ' + str(abs(ch_info['transparent_mark'] - 100)) + '%', callback_data = 'open transparent_mark'))
 
             if not ch_info['id_photo_mark'] == 'off':
                 bts.add(Button(text = 'Фото марки', callback_data = 'open photo_mark'))
@@ -155,23 +159,53 @@ class View(object):
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open ch_sett'))
         return 'Пришли мне фото (*ФАЙЛОМ*) или текст', bts
-    
+    @gs_info
+    def support(self, user_id):
+        bts = markup()
+        bts.add(Button(text = ' ⬅️ Отмена  ', callback_data='open main'))
+        return '\_/\_/\_/ Поддержка \\\_\\\_\\\_\nТеперь можете присилать текст и фото кагда закончите пришлите /stop ', bts
+
+
+    @gs_info
+    def help(self, user_id):
+        bts = markup()
+        bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open main'))
+        bts.add(Button(text = 'Инструкция', callback_data='open instruction'))
+        #bts.add(Button(text = 'Поддержка', callback_data='open support'))
+        return '\_/\_/\_/ Помощь \\\_\\\_\\\_', bts
+
+    @gs_info
+    def instruction(self, user_id):
+        bts = markup()
+        bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open help $is_new=True'))
+
+        video = open('instrukt.mp4', 'rb')
+        msg_id = self.bot.send_video(user_id, video, reply_markup = bts)
+        
+        return msg_id.message_id, None
+
+
     @gs_info
     def del_ch_sett(self, user_Id):
         btn = markup()
         btn.add(Button(text = ' ⬅️ Отмена  ', callback_data='open ch_sett'))
         btn.add(Button(text = 'Удалить!', callback_data='del ch_sett'))
         return 'Удалить настройки канала?', btn
+
     @gs_info
     def transparent_mark(self, user_id):
         return 'Виберете прозрачность марки', 'transparent_mark'
+
     @gs_info
     def photo_mark(self, user_id):
         photo_id = self.db.get_photo_mark_id(user_id)
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад ', callback_data = 'open ch_sett $is_new=True'),
                 Button(text = 'Новая',    callback_data = 'open set_mark $is_new=True'))
-        return 'PHG]['+photo_id, bts
+
+        msg_id2 = self.bot.send_document(user_id, photo_id, reply_markup = bts)
+
+        return msg_id2,message_id, None
 
     @gs_info
     def mark_size(self, user_id):

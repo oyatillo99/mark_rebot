@@ -18,7 +18,7 @@ class Editor(object):
         
     def main(self, message,):
         print('\n-------------------------  START EDIT PHOTO  ------------------------------')
-        print(f'msg.id: {message.message_id}, {message.chat.id}')
+        print(f'chat: {message.chat.username} msg.id: {message.message_id}, {message.chat.id}')
         config_ed = self.db.get_group(ch_id = message.chat.id)
         caption = message.caption
         chat_id = message.chat.id
@@ -32,7 +32,7 @@ class Editor(object):
                 if admin.status == 'creator':
                     print(admin.user.id)
                     markup = InlineKeyboardMarkup()
-                    markup.add(InlineKeyboardButton(text = 'Настроить канал', callback_data = 'add ch_sett $ch_id=' + str(chat_id)))
+                    markup.add(InlineKeyboardButton(text = 'Настроить канал', callback_data = 'add ch_sett $ch_id=' + str(chat_id) + ', username='+ message.chat.title ))
                     
                     msg_id = self.bot.send_message(admin.user.id, 'Превет оказалось я админ в твоей групе и я не знаю какую марку ставть в твоих постах. Если не хочешь ето видеть можешь удалить меня из администраторов.', reply_markup = markup)
                     self.db.msg_id(admin.user.id, msg_id.message_id)
@@ -117,9 +117,9 @@ class Editor(object):
 
 
 
-    def photo_edit(self,chat_id,msg_id,bytes_photo, caption):
-        print('Edit photo... , msg_id: {}, name_photo: {}'.format(chat_id, msg_id))             
-        info = self.bot.edit_message_media(chat_id = chat_id, message_id = msg_id, media = types.InputMediaPhoto(bytes_photo.getvalue(), caption = caption))
+    def photo_edit(self,ch_id,msg_id,bytes_photo, caption):
+        print(f'Edit photo... , msg_id: {msg_id}, ch_id: {ch_id}')             
+        info = self.bot.edit_message_media(chat_id = ch_id, message_id = msg_id, media = types.InputMediaPhoto(bytes_photo.getvalue(), caption = caption))
         print('-------------------------- SUCCESS EDITED ---------------------------')
 
     

@@ -5,17 +5,20 @@ class CallBack(object):
         self.db = db
         self.map_method = {
             'main'       : view.main,
+            'help'       : view.help,
             'ch_add'     : view.ch_add,
             'ch_sett'    : view.ch_setting,
             'ch_list'    : view.ch_list,
+            'support'    : view.support,
             'set_mark'   : view.set_mark,
             'mark_size'  : view.mark_size,
-            'pos_mark'   : view.pos_mark,            
+            'pos_mark'   : view.pos_mark,
             'font_style' : view.font_style,
             'photo_mark' : view.photo_mark,
             'bot_info'   : view.bot_info,
             'color_mark' : view.color_mark,
             'del_ch_sett': view.del_ch_sett,
+            'instruction': view.instruction,          
             'transparent_mark':view.transparent_mark,
         }
 
@@ -26,7 +29,9 @@ class CallBack(object):
         data = call.data.split('$')
         cmd = data[0].split()
         if len(data) == 2:
-            args = dict(e.split('=') for e in data[1].split(', '))
+            print(data[1])
+            args = dict([n.split('=') for n in data[1].split(', ')])
+
         else:
             args = {}
 
@@ -41,13 +46,15 @@ class CallBack(object):
 
                     
         elif cmd[0] == 'open':
+            print(cmd[1])
             try:
                 if 'ch_id' in args:
                     self.db.user_set(user_id, 'group_select', args['ch_id'])
                     args = {}
                 self.db.user_set(user_id, 'menu_select', cmd[1])
                 self.map_method[cmd[1]](user_id, **args)
-            except:
+            except Exception as e:
+                print(e)
                 self.view.main(user_id)
             
             
@@ -58,7 +65,8 @@ class CallBack(object):
                 self.view.ch_list(user_id)
         elif cmd[0] == 'add':
             if cmd[1] == 'ch_sett':
-                self.db.new_channel(user_id, args['ch_id'])
+                print(args)
+                self.db.new_channel(user_id, args['ch_id'], args['username'])
                 self.db.user_set(user_id, 'group_select', args['ch_id'])
                 self.view.ch_setting(user_id,)
 

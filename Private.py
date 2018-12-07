@@ -48,13 +48,13 @@ class Private(object):
                 for c in rgba:
                     if not c.isdigit() or int(c) < 0 or int(c) > 256: 
                       
-                        self.view.send(user_id, text = 'Неверно введи например\n`200 150 20 150`', markup = bts, is_new = True)
+                        self.view.send(user_id, text = 'Неверно введи например\n`200 150 20`', markup = bts, is_new = True)
                         return
                 self.db.channel_set(user_id, 'color_mark', message.text)
                 self.bot.send_message(user_id, 'Цвет марки встановлен!')
                 self.view.ch_setting(user_id, is_new = True)
             else:
-                self.view.send(user_id, text = 'Неверно введи например\n`200 150 20 150`', markup = bts, is_new = True)
+                self.view.send(user_id, text = 'Неверно введи например\n`200 150 20`', markup = bts, is_new = True)
                 
                         
                     
@@ -93,7 +93,7 @@ class Private(object):
         
         else:       
             self.db.new_channel(user_id, msg.chat.id, msg.chat.title) 
-            self.view.send(user_id = user_id, text = f'Канал *{msg.chat.title}* добавлен!\nСекуну..', is_new = True, markup = None)
+            self.view.send(user_id = user_id, text = f'Канал *{msg.chat.title}* добавлен!\nСекунду..', is_new = True, markup = None)
             self.db.user_set(user_id, 'group_select', msg.chat.id)
             sleep(3)
             self.view.ch_setting(user_id, is_new = True)
