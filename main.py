@@ -52,7 +52,7 @@ def private_handler(msg):
 		type_mark = 'photo_mark'
 		mark_photo = editor.download_photo(ch_info['id_photo_mark'])
 
-		edit_image = self.add_watermark(in_image = in_photo,
+		edit_image = editor.add_watermark(in_image = in_photo,
 						watermark_image = mark_photo,
 						config_ed = ch_info)
 

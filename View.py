@@ -205,7 +205,7 @@ class View(object):
 
         msg_id2 = self.bot.send_document(user_id, photo_id, reply_markup = bts)
 
-        return msg_id2,message_id, None
+        return msg_id2.message_id, None
 
     @gs_info
     def mark_size(self, user_id):
