@@ -180,7 +180,7 @@ class View(object):
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open help $is_new=True'))
         v = open('instrukt.mp4', 'rb')
-        msg_id = self.bot.send_document(user_id, v, reply_markup = bts)
+        msg_id = self.bot.send_document(user_id, 'CgADAgADPQMAAiyPeUj1Zvh-g7paNwI', reply_markup = bts)
         print(msg_id)
      
        
