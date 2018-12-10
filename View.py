@@ -179,11 +179,10 @@ class View(object):
     def instruct_desktop(self, user_id):
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open help $is_new=True'))
-        v = open('instrukt.mp4', 'rb')
+        
+        # ============= МАГИЯ НЕ ТРОГАТЬ!!! ======  FILE_ID 
         msg_id = self.bot.send_document(user_id, 'CgADAgADPQMAAiyPeUj1Zvh-g7paNwI', reply_markup = bts)
-        print(msg_id)
-     
-       
+        # =================================================
         return msg_id.message_id, None
 
     @gs_info
@@ -192,7 +191,7 @@ class View(object):
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open help $is_new=True'))
         msg_id = self.bot.send_video(user_id, 'BAADAgADNQMAAiyPeUhFeyeXLMOadQI', reply_markup = bts)
        
-        print(msg_id)
+        
         return msg_id.message_id, None
 
 
