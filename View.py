@@ -179,7 +179,7 @@ class View(object):
     def instruct_desktop(self, user_id):
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open help $is_new=True'))
-        msg_id = self.bot.send_document(user_id, 'CgADAgADPAIAAkjTeEjSXbcaxD-8WgI', reply_markup = bts)
+        msg_id = self.bot.send_document(user_id, 'CgADAgADNgMAAiyPeUh6HeJfqa3M8QI', reply_markup = bts)
      
         
         print(msg_id)
@@ -189,7 +189,7 @@ class View(object):
     def instruct_android(self, user_id):
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open help $is_new=True'))
-        msg_id = self.bot.send_video(user_id, 'BAADAgADPgIAAkjTeEgckHcvR6vaswI', reply_markup = bts)
+        msg_id = self.bot.send_video(user_id, 'BAADAgADNQMAAiyPeUhFeyeXLMOadQI', reply_markup = bts)
        
         print(msg_id)
         return msg_id.message_id, None
