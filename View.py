@@ -170,18 +170,28 @@ class View(object):
     def help(self, user_id):
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open main'))
-        bts.add(Button(text = 'Инструкция', callback_data='open instruction'))
+        bts.add(Button(text = 'Инструкция desktop', callback_data='open instruct_desktop'))
+        bts.add(Button(text = 'Инструкция android', callback_data='open instruct_android'))
         #bts.add(Button(text = 'Поддержка', callback_data='open support'))
         return '\_/\_/\_/ Помощь \\\_\\\_\\\_', bts
 
     @gs_info
-    def instruction(self, user_id):
+    def instruct_desktop(self, user_id):
         bts = markup()
         bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open help $is_new=True'))
-
-        video = open('instrukt.mp4', 'rb')
-        msg_id = self.bot.send_video(user_id, video, reply_markup = bts)
+        msg_id = self.bot.send_document(user_id, 'CgADAgADPAIAAkjTeEjSXbcaxD-8WgI', reply_markup = bts)
+     
         
+        print(msg_id)
+        return msg_id.message_id, None
+
+    @gs_info
+    def instruct_android(self, user_id):
+        bts = markup()
+        bts.add(Button(text = ' ⬅️ Назад  ', callback_data='open help $is_new=True'))
+        msg_id = self.bot.send_video(user_id, 'BAADAgADPgIAAkjTeEgckHcvR6vaswI', reply_markup = bts)
+       
+        print(msg_id)
         return msg_id.message_id, None
 
 
