@@ -58,7 +58,7 @@ class Editor(object):
             type_mark = 'text_mark'
             edit_image = self.add_textmark(in_photo, config_ed)
         
-        self.photo_edit(chat_id, msg_id, edit_image, caption)
+        self.photo_edit(chat_id, msg_id, edit_image, caption, config_ed)
 
         self.db.new_edit_post(chat_id, config_ed['user_id'], type_mark)
 
@@ -117,10 +117,43 @@ class Editor(object):
 
 
 
-    def photo_edit(self,ch_id,msg_id,bytes_photo, caption):
-        print(f'Edit photo... , msg_id: {msg_id}, ch_id: {ch_id}')             
-        info = self.bot.edit_message_media(chat_id = ch_id, message_id = msg_id, media = types.InputMediaPhoto(bytes_photo.getvalue(), caption = caption))
-        print('-------------------------- SUCCESS EDITED ---------------------------')
+    def photo_edit(self,ch_id,msg_id,bytes_photo, caption, config_ed):
+        print(f'Edit photo... , msg_id: {msg_id}, ch_id: {ch_id}')
+        try:
+            info = self.bot.edit_message_media(chat_id = ch_id, message_id = msg_id, media = types.InputMediaPhoto(bytes_photo.getvalue(), caption = caption))
+            print('-------------------------- SUCCESS EDITED ---------------------------')
+            
+        except Exception as e:
+            markup = InlineKeyboardMarkup()
+            print('Error edit media: ', e)
+            try:
+                
+                r = self.bot.get_chat_member(ch_id, 770141959)
+
+                if not r.can_edit_messages:
+                    print('can`t_edit_messages')
+                    markup.add(InlineKeyboardButton(text = 'Скрить', callback_data = 'open main'))
+
+                    msg_id = self.bot.send_message(config_ed['user_id'], 
+'⚠️ Привет только что питался поставить водяной знак в канале '+config_ed['past_name_ch']+', но оказалось у меня нет права Редактировать чужие сообщенияє',
+                     reply_markup = markup, parse_mode='markdown')
+
+            except Exception as e:
+                print('Error get chat member: ', e)
+                msg_id = self.bot.send_message(config_ed['user_id'], 
+'⚠️ Привет только что питался поставить водяной знак в канале '+config_ed['past_name_ch']+', но оказалось я не администратор',
+                     reply_markup = markup, parse_mode='markdown')
+
+
+
+
+
+
+
+            
+            
+            self.db.msg_id(config_ed['user_id'], msg_id.message_id)
+
 
     
     def pos_conf(self, main_W, main_H, mark_W, mark_H, position):

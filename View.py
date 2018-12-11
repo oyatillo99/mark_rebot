@@ -87,7 +87,7 @@ class View(object):
                     self.bot.get_chat(ch[0])  
                     name = ch[1]     
                 except:
-                    name = ch[1] + ' | Нет прав'
+                    name = ch[1] + ' | Не админ'
 
                 ch_list.add(Button(text = name , callback_data = 'open ch_sett $ch_id=' + str(ch[0])))
 
@@ -133,7 +133,7 @@ class View(object):
 
         if ch_info['id_photo_mark'] == 'off' and ch_info['text_mark'] == 'off':
             bts.add(Button(text = '⬅️ Назад ', callback_data='open ch_list')) 
-            text_ch_info = 'Для начала пришли мне фото (*ФАЙЛОМ*) или текст'
+            text_ch_info = 'Для начала пришли мне фото (❗️*ФАЙЛОМ*❗️) или текст'
             self.db.user_set(user_id, 'menu_select', 'set_mark')
                 
         else:
@@ -244,7 +244,7 @@ class View(object):
         bts = markup()
         bts.add(Button(text='⬅️ Назад', callback_data = 'open main'))
 
-        text = '''SetWaterMarkBot v0.0.8
+        text = '''SetWaterMarkBot v0.0.9
 Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
 Наш чат поддержки @SetWMBotSupport
         '''
