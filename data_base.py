@@ -66,7 +66,7 @@ class DB(object):
     def get_groups_id(self, user_id):
         with self.conn:
             with self.conn.cursor() as cur:
-                cur.execute(f"SELECT id, past_name_ch FROM groups_setting WHERE user_id = {user_id}")
+                cur.execute(f"SELECT id, past_name_ch, status FROM groups_setting WHERE user_id = {user_id}")
                 groups =  cur.fetchall()
 
         return groups
@@ -178,6 +178,8 @@ class DB(object):
                 cur.execute("""UPDATE groups_setting
                     SET post_edit_count = post_edit_count + 1
                     WHERE id = %s;""",(group_id,))   
+
+
 
 
 

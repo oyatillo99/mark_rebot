@@ -81,15 +81,20 @@ class View(object):
                     Button(text=' ➕ ', callback_data = 'open ch_add'))
         if channels:
             text_lis = '\_/\_/\_/ Список каналов \\\_\\\_\\\_'
-
+    
             for ch in channels:
                 try:
-                    self.bot.get_chat(ch[0])  
-                    name = ch[1]     
-                except:
-                    name = ch[1] + ' | Не админ'
+                    try:
+                        self.bot.get_chat(ch[0])  
+                        name = ch[1] + ' | ❌ OFF' if ch[2] == 'off' else ch[1]
+                    except Exception as e:
+                        print('Error getchat: ',e)
+                        name = ch[1] + ' | Не админ'
 
-                ch_list.add(Button(text = name , callback_data = 'open ch_sett $ch_id=' + str(ch[0])))
+                    ch_list.add(Button(text = name , callback_data = 'open ch_sett $ch_id=' + str(ch[0])))
+                    
+                except Exception as e:
+                    print(e)
 
         else:
             text_lis = 'Для начала добавь канал ⬇️'

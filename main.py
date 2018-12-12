@@ -45,7 +45,7 @@ def private_handler(msg):
 	ch_info = db.get_group(user_id = user_id)
 
 
-	if ch_info['status'] =='off' or ch_info['id_photo_mark'] == 'off' and ch_info['text_mark'] == 'off':
+	if ch_info['id_photo_mark'] == 'off' and ch_info['text_mark'] == 'off':
 		print('Channel status off, return private')
 		return
 		

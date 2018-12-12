@@ -136,13 +136,13 @@ class Editor(object):
 
                     msg_id = self.bot.send_message(config_ed['user_id'], 
 '⚠️ Привет только что питался поставить водяной знак в канале '+config_ed['past_name_ch']+', но оказалось у меня нет права Редактировать чужие сообщенияє',
-                     reply_markup = markup, parse_mode='markdown')
+                     reply_markup = markup)
 
             except Exception as e:
                 print('Error get chat member: ', e)
                 msg_id = self.bot.send_message(config_ed['user_id'], 
 '⚠️ Привет только что питался поставить водяной знак в канале '+config_ed['past_name_ch']+', но оказалось я не администратор',
-                     reply_markup = markup, parse_mode='markdown')
+                     reply_markup = markup)
 
 
 
