@@ -20,7 +20,7 @@ class View(object):
             if 'is_new' in kwarg:
                 try:
                     self.bot.delete_message(user_id, msg_id)
-                except Exception as a:
+                except Exception as e:
                     print('Faill del msg: ', e)
                 msg_id = False
                 del kwarg['is_new']
