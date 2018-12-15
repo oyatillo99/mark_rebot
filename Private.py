@@ -30,7 +30,7 @@ class Private(object):
                 photo_id =  message.document.file_id
                 self.db.channel_set(user_id, 'text_mark', 'off')
                 self.db.channel_set(user_id, 'id_photo_mark', photo_id)
-                self.bot.send_message(user_id, 'Фото марка встановлен!')
+                self.bot.send_message(user_id, 'Фото марка встановлена!')
 
             else:
                 self.db.channel_set(user_id, 'id_photo_mark', 'off')

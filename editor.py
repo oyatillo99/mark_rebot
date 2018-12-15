@@ -67,7 +67,7 @@ class Editor(object):
 
         color = list(map(int, config_ed['color_mark'].split()))
         color.append(int((255 / 100) * config_ed['transparent_mark']))
-        print(color)
+        
         url_for_font_style = 'fonts/'+config_ed['font_style_mark']+'.ttf'
         mark_size = int(config_ed['mark_size']) * 2
 

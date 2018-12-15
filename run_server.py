@@ -8,7 +8,7 @@ from main import bot
  
 server = flask.Flask(__name__)
  
-log = logging.getLogger('workzeug')
+log = logging.getLogger('flask')
 log.setLevel(logging.ERROR)
 
 @server.route('/' + config.TOKEN, methods=['POST'])

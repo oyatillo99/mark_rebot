@@ -25,12 +25,13 @@ class CallBack(object):
 
 
     def main(self, call):
-        print(f'\nUser {call.from_user.first_name}, id:{call.from_user.id}, send data: {call.data}, username: {call.from_user.username}')
+        print(f'\nUser {call.from_user.first_name}, id:{call.from_user.id},\
+         send data: {call.data}, username: {call.from_user.username}')
         user_id = call.from_user.id
         data = call.data.split('$')
         cmd = data[0].split()
         if len(data) == 2:
-            print(data[1])
+            
             args = dict([n.split('=') for n in data[1].split(', ')])
 
         else:
@@ -41,13 +42,13 @@ class CallBack(object):
                 if cmd[2] == 'status':
                     self.db.switch_status(user_id)
                 else:
-                    print(cmd)
+                    
                     self.db.channel_set(user_id, cmd[2], cmd[3])
                 self.view.ch_setting(user_id)
 
                     
         elif cmd[0] == 'open':
-            print(cmd[1])
+            
             try:
                 if 'ch_id' in args:
                     self.db.user_set(user_id, 'group_select', args['ch_id'])
@@ -56,7 +57,7 @@ class CallBack(object):
                 self.db.user_set(user_id, 'menu_select', cmd[1])
                 self.map_method[cmd[1]](user_id, **args)
             except Exception as e:
-                print(e)
+                print('Error map method: ', e)
                 self.view.main(user_id)
             
             
@@ -67,7 +68,7 @@ class CallBack(object):
                 self.view.ch_list(user_id)
         elif cmd[0] == 'add':
             if cmd[1] == 'ch_sett':
-                print(args)
+                
                 self.db.new_channel(user_id, args['ch_id'], args['username'])
                 self.db.user_set(user_id, 'group_select', args['ch_id'])
                 self.view.ch_setting(user_id,)
