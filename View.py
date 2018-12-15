@@ -16,14 +16,16 @@ class View(object):
             #print(f'Open {func.__name__} menu for {user_id} args: {kwarg}')
            
             msg_id = self.db.msg_id(user_id)
-
-            if 'is_new' in kwarg:
+            if msg_id == 0:
+                msg_id = False  
+            elif 'is_new' in kwarg:
                 try:
                     self.bot.delete_message(user_id, msg_id)
                 except Exception as e:
                     print('Faill del msg: ', e)
                 msg_id = False
                 del kwarg['is_new']
+            
 
             text, bts = func(self, user_id, **kwarg)
 
