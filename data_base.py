@@ -173,7 +173,7 @@ class DB(object):
     def get_photo_mark_id(self, user_id):
         with self.conn:
             with self.conn.cursor() as cur:
-                group_id = self.user_get(user_id, 'group_sel    ect')
+                group_id = self.user_get(user_id, 'group_select')
                 cur.execute("SELECT id_photo_mark FROM groups_setting WHERE id = %s;", (group_id,))
                 photo_id = cur.fetchone()[0]
         return photo_id
