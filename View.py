@@ -17,7 +17,11 @@ class View(object):
            
             msg_id = self.db.msg_id(user_id)
             if msg_id == 0:
-                msg_id = False  
+                msg_id = False
+                try:
+                    del kwarg['is_new']
+                except Exception as e:
+                    print('Error 1: ', e)
             elif 'is_new' in kwarg:
                 try:
                     self.bot.delete_message(user_id, msg_id)
