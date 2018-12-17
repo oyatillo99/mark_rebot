@@ -47,22 +47,23 @@ class View(object):
 
             if msg_id:
                 try:
-                    new_msg = self.bot.edit_message_text(
+                    new_msg_id = self.bot.edit_message_text(
                         chat_id = user_id, message_id = msg_id,
                         text = text,
                         parse_mode = 'Markdown',
-                        reply_markup = bts)   
+                        reply_markup = bts).message_id
                 except Exception as e:
+                    new_msg_id = msg_id
                     print('Error edit msg: ', e)
 
             else:
-                new_msg = self.bot.send_message(
+                new_msg_id = self.bot.send_message(
                 user_id, text,
                 parse_mode = 'Markdown',
-                reply_markup = bts)
+                reply_markup = bts).message_id
                 
-            if not new_msg.message_id == msg_id:
-                self.db.msg_id(user_id, new_msg.message_id)
+            if not new_msg_id == msg_id:
+                self.db.msg_id(user_id, new_msg_id)
         return wrapper
         
     @gs_info
