@@ -90,7 +90,7 @@ class View(object):
         
         ch_list = markup()
         ch_list.add(btn(text='⬅️ Назад', callback_data = 'open main'),
-                    btn(text=' ➕ ', callback_data = 'open ch_add'))
+                    btn(text=' Добавить ', callback_data = 'open ch_add'))
         if not channels:
             return 'Для начала добавь канал ⬇️', ch_list
        
@@ -137,8 +137,8 @@ class View(object):
             print('Error get chat title: ', e)
             bts.add(btn(text = 'Обновить', callback_data = 'open ch_sett'))
             bts.add(btn(text = '⬅️ Назад ', callback_data = 'open ch_list'))
-            return 'Ти удалил меня из администраторов в канале: *'+ ch_info['past_name_ch'] +'*\
-            Я не смогу ставить водяние знаки в етом канале, видай мне права админа и нажми Обновить', bts
+            return '⚠️ Ти удалил меня из администраторов в канале: *'+ ch_info['past_name_ch'] +'*\
+            Я не смогу ставить водяние знаки в етом канале, видай мне права администратора и нажми Обновить', bts
 
         if ch_info['id_photo_mark'] == 'off' and ch_info['text_mark'] == 'off':
             bts.add(btn(text = '⬅️ Назад ', callback_data='open ch_list')) 
@@ -154,7 +154,7 @@ class View(object):
         bts.add(btn(text='Прозрачность: ' + transparent, callback_data = 'open transparent_mark'))
 
         if not ch_info['id_photo_mark'] == 'off':
-            bts.add(btn(text = 'Фото марки', callback_data = 'open photo_mark'))
+            bts.add(btn(text = 'Изменить марку', callback_data = 'open photo_mark'))
         else:
             bts.add(btn(text = 'Текст марки: ' + ch_info['text_mark'], callback_data = 'open set_mark'))
             bts.add(btn(text = 'Цвет марки: '  + ch_info['color_mark'], callback_data = 'open color_mark'))
@@ -208,7 +208,7 @@ class View(object):
         bts = markup()
         bts.add(btn(text = ' ⬅️ Отмена  ', callback_data='open ch_sett'))
         bts.add(btn(text = 'Удалить!', callback_data='del ch_sett'))
-        return 'Удалить настройки канала?', bts
+        return '⚠️ Удалить настройки канала? ⚠️', bts
 
     @gs_info
     def transparent_mark(self, user_id):
@@ -242,14 +242,14 @@ class View(object):
     def color_mark(self, user_id):
         bts = markup()
         bts.add(btn(text = '⬅️ Назад', callback_data='open ch_sett'))
-        text = 'Пришлите текст в формате RGBA \nnnn nnn nnn'
+        text = 'Пришлите текст в формате RGBA \n0-255 0-255 0-255'
         return text, bts
 
     @gs_info
     def bot_info(self, user_id):
         bts = markup()
         bts.add(btn(text='⬅️ Назад', callback_data = 'open main'))
-        text = '''SetWaterMarkBot v0.1b
+        text = '''SetWaterMarkBot v0.1.2
 Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
 Наш чат поддержки @SetWMBotSupport
         '''
