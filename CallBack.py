@@ -69,7 +69,7 @@ class CallBack(object):
         elif cmd[0] == 'add':
             if cmd[1] == 'ch_sett':
                 
-                self.db.new_channel(user_id, args['ch_id'], args['title'])
+                self.db.new_channel(user_id, args['ch_id'], 'No-name')
                 self.db.user_set(user_id, 'group_select', args['ch_id'])
                 self.view.ch_setting(user_id,)
 

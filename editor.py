@@ -32,7 +32,7 @@ class Editor(object):
                 if admin.status == 'creator':
                     print(admin.user.id)
                     markup = InlineKeyboardMarkup()
-                    call_data = 'add ch_sett $ch_id=' + str(chat_id) + ', title='+ message.chat.title 
+                    call_data = 'add ch_sett $ch_id=' + str(chat_id)
                     print('call data: ', call_data)
                     markup.add(InlineKeyboardButton(text = 'Настроить канал', callback_data = call_data ))
                     

@@ -118,8 +118,8 @@ class View(object):
     def ch_add(self, user_id):
         bts = markup()  
         bts.add(btn(text = '⬅️ Назад ', callback_data='open ch_list'))
-        return 'Добавь меня в администраторы, \nи отправь мне *username*\
-         канала\n Можно без @ \n Например `@yor_channel`', bts 
+        return 'Добавь меня в администраторы, \nи отправь мне *username*/ссылку \
+канала \nНапример `@yor_channel`\nМожно без @', bts 
         
 
     @gs_info
@@ -149,16 +149,16 @@ class View(object):
         transparent = str(abs(ch_info['transparent_mark'] - 100)) + '%'
         bts.add(btn(text='⬅️ Назад ', callback_data='open ch_list'),
                 btn(text='Статус: '+ status, callback_data = 'set ch status'))
-        bts.add(btn(text='Размер марки: ' + str(ch_info['mark_size']) + '%', callback_data = 'open mark_size'))
-        bts.add(btn(text='Позиция марки: '+ self.view_position(ch_info['position_mark']), callback_data = 'open pos_mark'))
+        bts.add(btn(text='Размер: ' + str(ch_info['mark_size']) + '%', callback_data = 'open mark_size'),
+                btn(text='Позиция: '+ self.view_position(ch_info['position_mark']), callback_data = 'open pos_mark'))
         bts.add(btn(text='Прозрачность: ' + transparent, callback_data = 'open transparent_mark'))
 
         if not ch_info['id_photo_mark'] == 'off':
             bts.add(btn(text = 'Изменить марку', callback_data = 'open photo_mark'))
         else:
-            bts.add(btn(text = 'Текст марки: ' + ch_info['text_mark'], callback_data = 'open set_mark'))
-            bts.add(btn(text = 'Цвет марки: '  + ch_info['color_mark'], callback_data = 'open color_mark'))
-            bts.add(btn(text = 'Стиль шрифта марки: ' + ch_info['font_style_mark'], callback_data = 'open font_style '))
+            bts.add(btn(text = 'Текст: ' + ch_info['text_mark'], callback_data = 'open set_mark'))
+            bts.add(btn(text = 'Цвет: '  + ch_info['color_mark'], callback_data = 'open color_mark'),
+                    btn(text = 'Стиль: ' + ch_info['font_style_mark'], callback_data = 'open font_style '))
         bts.add(btn(text = 'Удалить настройки', callback_data='open del_ch_sett'))
         text_ch_info = 'Настройки канала: *' + ch_info['past_name_ch']+'*'
         return text_ch_info, bts 
