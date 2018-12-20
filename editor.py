@@ -32,7 +32,9 @@ class Editor(object):
                 if admin.status == 'creator':
                     print(admin.user.id)
                     markup = InlineKeyboardMarkup()
-                    markup.add(InlineKeyboardButton(text = 'Настроить канал', callback_data = 'add ch_sett $ch_id=' + str(chat_id) + ', username='+ message.chat.title ))
+                    call_data = 'add ch_sett $ch_id=' + str(chat_id) + ', title='+ message.chat.title 
+                    print('call data: ', call_data)
+                    markup.add(InlineKeyboardButton(text = 'Настроить канал', callback_data = call_data ))
                     
                     msg_id = self.bot.send_message(admin.user.id, 'Привет оказалось я админ в твоем канале и я не знаю какую марку ставить в твоих постах. Если не хочешь это видеть можешь удалить меня из администраторов.', reply_markup = markup)
                     self.db.msg_id(admin.user.id, msg_id.message_id)
