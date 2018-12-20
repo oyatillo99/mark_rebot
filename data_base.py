@@ -183,8 +183,7 @@ class DB(object):
         date = datetime.datetime.today()
         with self.conn:
             with self.conn.cursor() as cur:
-                cur.execute("""INSERT INTO posts (group_id, user_id, type_mark, date_edit)
-                    VALUES (%s,%s,%s,%s)""",(group_id, user_id, type_mark, date,))
+                cur.execute("update bot_info set all_edited_posts = all_edited_posts + 1 where id = 1;")
                 cur.execute("""UPDATE users
                     SET post_edit_count = post_edit_count + 1
                     WHERE id = %s;""",(user_id,))
@@ -195,8 +194,10 @@ class DB(object):
 
 
 
-
-
+# CREATE TABLE  info_bot (
+#     id          int,
+#     all_edited_posts int,  
+# )
 
 
 
