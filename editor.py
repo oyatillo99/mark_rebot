@@ -30,7 +30,9 @@ class Editor(object):
             
             for admin in self.bot.get_chat_administrators(chat_id):
                 if admin.status == 'creator':
-                    print(admin.user.id)
+                    
+                    print(admin.user.username)
+                    
                     markup = InlineKeyboardMarkup()
                     call_data = 'add ch_sett $ch_id=' + str(chat_id)
                     print('call data: ', call_data)
