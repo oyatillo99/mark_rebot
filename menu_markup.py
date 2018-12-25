@@ -51,7 +51,13 @@ def font_style():
     bts.add(button(text='OpenSans',  callback_data='set ch font_style_mark OpenSans'))
     bts.add(button(text='Raleway',  callback_data='set ch font_style_mark Raleway'))
     bts.add(button(text='Pixel',  callback_data='set ch font_style_mark Pixel'))
-    return bts
+    
+    bts.add(button(text='Caveat',  callback_data='set ch font_style_mark Caveat'))
+    bts.add(button(text='Lobster',  callback_data='set ch font_style_mark Lobster'))
+    bts.add(button(text='Oswald',  callback_data='set ch font_style_mark Oswald'))
+    bts.add(button(text='Pacifico',  callback_data='set ch font_style_mark Pacifico'))
+    bts.add(button(text='Rubik Mono',  callback_data='set ch font_style_mark RubikMonoOne'))
+    return bts  
 
     
 def transparent_mark():
