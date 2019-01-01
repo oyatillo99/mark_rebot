@@ -86,7 +86,7 @@ class View(object):
 
     @gs_info
     def ch_list(self, user_id):
-        channels = self.db.get_groups_id(user_id)
+        channels = self.db.get_channel_id(user_id)
         
         ch_list = markup()
         ch_list.add(btn(text='⬅️ Назад', callback_data = 'open main'),
@@ -125,42 +125,43 @@ class View(object):
     @gs_info
     def ch_setting(self, user_id):
         bts = markup()      
-        ch_info = self.db.get_group(user_id = user_id)
+        ch_info = self.db.get_ch(user_id = user_id)
 
         try:
-            title = self.bot.get_chat(ch_info['id']).title
-            if not title == ch_info['past_name_ch']:
+            title = self.bot.get_chat(ch_info.id).title
+            if not title == ch_info.past_name_ch:
                 self.db.channel_set(user_id, 'past_name_ch', title)
-                ch_info['past_name_ch'] = title
+                ch_info.past_name_ch = title
 
         except Exception as e:
             print('Error get chat title: ', e)
             bts.add(btn(text = 'Обновить', callback_data = 'open ch_sett'))
             bts.add(btn(text = '⬅️ Назад ', callback_data = 'open ch_list'))
-            return '⚠️ Ти удалил меня из администраторов в канале: *'+ ch_info['past_name_ch'] +'*\
+            return '⚠️ Ти удалил меня из администраторов в канале: *'+ ch_info.past_name_ch +'*\
             Я не смогу ставить водяние знаки в етом канале, видай мне права администратора и нажми Обновить', bts
 
-        if ch_info['id_photo_mark'] == 'off' and ch_info['text_mark'] == 'off':
+        if ch_info.photo_id == 'off' and ch_info.text_mark == 'off':
             bts.add(btn(text = '⬅️ Назад ', callback_data='open ch_list')) 
             self.db.user_set(user_id, 'menu_select', 'set_mark')
             return 'Для начала пришли мне фото (❗️*ФАЙЛОМ*❗️) или текст', bts    
         
-        status = '✅' if ch_info['status'] == 'on' else '❌'
-        transparent = str(abs(ch_info['transparent_mark'] - 100)) + '%'
+        status = '✅' if ch_info.status == 'on' else '❌'
+        transparent = str(abs(ch_info.transparent - 100)) + '%'
         bts.add(btn(text='⬅️ Назад ', callback_data='open ch_list'),
-                btn(text='Статус: '+ status, callback_data = 'set ch status'))
-        bts.add(btn(text='Размер: ' + str(ch_info['mark_size']) + '%', callback_data = 'open mark_size'),
-                btn(text='Позиция: '+ self.view_position(ch_info['position_mark']), callback_data = 'open pos_mark'))
-        bts.add(btn(text='Прозрачность: ' + transparent, callback_data = 'open transparent_mark'))
+                btn(text='Статус: ' + status, callback_data = 'set ch status'))
+        bts.add(btn(text='Размер: ' + str(ch_info.mark_size) + '%', callback_data = 'open mark_size'),
+                btn(text='Позиция: '+ self.view_position(ch_info.pos_mark), callback_data = 'open pos_mark'))
+        bts.add(btn(text='Прозрa-ть: ' + transparent, callback_data = 'open transparent_mark'),
+                btn(text='Отступи: ' + str(ch_info.margin_mark), callback_data = 'open margin_mark'))
 
-        if not ch_info['id_photo_mark'] == 'off':
+        if not ch_info.photo_id == 'off':
             bts.add(btn(text = 'Изменить марку', callback_data = 'open photo_mark'))
         else:
-            bts.add(btn(text = 'Текст: ' + ch_info['text_mark'], callback_data = 'open set_mark'))
-            bts.add(btn(text = 'Цвет: '  + ch_info['color_mark'], callback_data = 'open color_mark'),
-                    btn(text = 'Стиль: ' + ch_info['font_style_mark'], callback_data = 'open font_style '))
+            bts.add(btn(text = 'Текст: ' + ch_info.text_mark, callback_data = 'open set_mark'))
+            bts.add(btn(text = 'Цвет: '  + ch_info.color_mark, callback_data = 'open color_mark'),
+                    btn(text = 'Стиль: ' + ch_info.font_style, callback_data = 'open font_style '))
         bts.add(btn(text = 'Удалить настройки', callback_data='open del_ch_sett'))
-        text_ch_info = 'Настройки канала: *' + ch_info['past_name_ch']+'*'
+        text_ch_info = 'Настройки канала: *' + ch_info.past_name_ch + '*'
         return text_ch_info, bts 
 
     @gs_info
@@ -228,6 +229,9 @@ class View(object):
     @gs_info
     def mark_size(self, user_id):
         return 'Установите размер марки', 'mark_size'
+    @gs_info
+    def margin_mark(self, user_id):
+        return 'Установите размер отступов', 'margin_mark'
 
     @gs_info
     def pos_mark(self, user_id):
@@ -249,7 +253,7 @@ class View(object):
     def bot_info(self, user_id):
         bts = markup()
         bts.add(btn(text='⬅️ Назад', callback_data = 'open main'))
-        text = '''SetWaterMarkBot v0.1.2
+        text = '''SetWaterMarkBot v0.2.0
 Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
 Наш чат поддержки @SetWMBotSupport
         '''

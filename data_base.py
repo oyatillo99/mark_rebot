@@ -1,6 +1,7 @@
 import psycopg2
+import psycopg2.extras
 import datetime
-
+from type import ChInfo
 
 
 class DB(object):
@@ -70,7 +71,7 @@ class DB(object):
         return get
 
 
-    def get_groups_id(self, user_id):
+    def get_channel_id(self, user_id):
         with self.conn:
             with self.conn.cursor() as cur:
                 cur.execute(f"""SELECT id, past_name_ch, status 
@@ -99,12 +100,13 @@ class DB(object):
                     position_mark,
                     font_style_mark,
                     past_name_ch,
-                    transparent_mark
+                    transparent_mark,
+                    margin_mark
                 )
                     VALUES (%s, %s,
                     0, %s ,
                    'on', 'off', 'off', 15, '255 255 255',
-                    'down_right', 'Raleway', %s, 100);""",
+                    'down_right', 'Raleway', %s, 100, 4);""",
                      (ch_id, user_id , date, channel_title,))
         
                 cur.execute("""UPDATE users
@@ -112,33 +114,18 @@ class DB(object):
                     WHERE id = %s;""",(user_id,))
 
 
-    def get_group(self, ch_id = None, user_id = None):
+    def get_ch(self, ch_id = None, user_id = None):
         if user_id:
             ch_id = self.user_get(user_id, 'group_select')
             
         with self.conn:
-            with self.conn.cursor() as cur:
+            with self.conn.cursor(cursor_factory = psycopg2.extras.DictCursor) as cur:
                 cur.execute("SELECT * FROM groups_setting WHERE id = %s;",(ch_id,))
-                group =  cur.fetchone()
-        if group:
-            return {
-                'id'              :group[0],             
-                'user_id'         :group[1],
-                'post_edit_count' :group[2],
-                'date_add'        :group[3],
-                'status'          :group[4],
-                'id_photo_mark'   :group[5],
-                'text_mark'       :group[6],
-                'mark_size'       :group[7],
-                'color_mark'      :group[8],
-                'position_mark'   :group[9],
-                'font_style_mark' :group[10],
-                'past_name_ch'    :group[11],   
-                'transparent_mark':group[12]
-            }
-        else:
-            return False
-          
+                data = cur.fetchall()
+                
+                return ChInfo(dict(data[0]))
+        
+    
     def del_ch_sett(self, user_id):
         with self.conn:
             with self.conn.cursor() as cur:

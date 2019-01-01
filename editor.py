@@ -1,187 +1,93 @@
-import io
 from pprint import pprint
-from telebot import types
+import uuid
+from io import BytesIO
+from numpy import array as np_arr
 from PIL import Image, ImageDraw, ImageFont
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-
+from moviepy.editor import ImageClip, VideoFileClip, CompositeVideoClip
 
 class Editor(object):
-    def __init__(self, bot, db):
-        self.bot = bot
-        self.db = db
-    
-    def download_photo(self, photo_id):
-        file_info = self.bot.get_file(photo_id) 
-        downloaded_file = self.bot.download_file(file_info.file_path)
-        return downloaded_file
+    def edit_gif(self, info, gif_path, mark = None):
+        out_file = str(uuid.uuid4()) + '.mp4'
+        base = VideoFileClip(gif_path)
+
+        if mark is None:
+            wmark = self.txt_mark(base.size, info)
+        else:
+            wmark = Image.open(BytesIO(mark)).convert('RGBA')
+
+        wmark = self.preparation_mark(info, wmark, base.size)   
+        mark = ImageClip( np_arr(wmark) ).set_position(
+            self.pos_conf(*base.size, *wmark.size, info))
         
-        
-    def main(self, message,):
-        print('\n-------------------------  START EDIT PHOTO  ------------------------------')
-        print(f'chat: {message.chat.username} msg.id: {message.message_id}, {message.chat.id}')
-        config_ed = self.db.get_group(ch_id = message.chat.id)
-        caption = message.caption
-        chat_id = message.chat.id
-        msg_id = message.message_id
-        
-
-        if not config_ed:
-            print('This channel not found, return')
-            
-            for admin in self.bot.get_chat_administrators(chat_id):
-                if admin.status == 'creator':
-                    
-                    print(admin.user.username)
-                    
-                    markup = InlineKeyboardMarkup()
-                    call_data = 'add ch_sett $ch_id=' + str(chat_id)
-                    print('call data: ', call_data)
-                    markup.add(InlineKeyboardButton(text = 'Настроить канал', callback_data = call_data ))
-                    try:
-                        msg_id = self.bot.send_message(admin.user.id, 'Привет оказалось я админ в твоем канале и я не знаю какую марку ставить в твоих постах. Если не хочешь это видеть можешь удалить меня из администраторов.', reply_markup = markup)
-                    except Exception as e:
-                        print('Error send block msg: ', e)
-                        
-                    self.db.msg_id(admin.user.id, msg_id.message_id)
-            
-            
-            return
-        if config_ed['status'] =='off' or config_ed['id_photo_mark'] == 'off' and config_ed['text_mark'] == 'off':
-            print('Channel status off, return')
-            return
-        pprint(config_ed)
-        in_photo = self.download_photo(message.photo[-1].file_id)
+        out = CompositeVideoClip([base, mark])
+        out.duration = base.duration
+        out.write_videofile(out_file, threads = None)
+        return out_file
 
 
-        if not config_ed['id_photo_mark'] == 'off':
-            type_mark = 'photo_mark'
-            mark_photo = self.download_photo(config_ed['id_photo_mark'])
+    def preparation_mark(self, info, mark, base_size):
+        # cut and set transparent
+        wm = Image.eval(mark, # Set transparent
+            lambda x: int((x /100) * info.transparent))
+        mark_size = int(((sum(base_size) / 2) / 100) * info.mark_size)
+        wpercent  = (mark_size / float( wm.size[0] ))
+        hsize     = int((float(wm.size[1]) * float(wpercent)))
+        return wm.resize((mark_size,hsize), Image.ANTIALIAS)
 
-            edit_image = self.add_watermark(in_image = in_photo,
-                            watermark_image = mark_photo,
-                            config_ed = config_ed)
+    def edit_photo(self, info, photo, mark = None):
+        base = Image.open(BytesIO(photo)).convert('RGBA')
 
-        elif not config_ed['text_mark'] == 'off': 
-            type_mark = 'text_mark'
-            edit_image = self.add_textmark(in_photo, config_ed)
-        
-        self.photo_edit(chat_id, msg_id, edit_image, caption, config_ed)
+        if mark is None:
+            wt_mark = self.txt_mark(base.size, info)
+        else:
+            wt_mark = Image.open(BytesIO(mark)).convert('RGBA')
 
-        self.db.new_edit_post(chat_id, config_ed['user_id'], type_mark)
+        watermark   = self.preparation_mark(info, wt_mark, base.size)
+        out = Image.new('RGBA', base.size, (0,0,0,0))
+        out.paste(base, (0,0))
+        out.paste(watermark, mask=watermark,
+        box = self.pos_conf(*base.size, *watermark.size, info))
 
-
-    def add_textmark(self,in_image, config_ed):
-
-        color = list(map(int, config_ed['color_mark'].split()))
-        color.append(int((255 / 100) * config_ed['transparent_mark']))
-        
-        url_for_font_style = 'fonts/'+config_ed['font_style_mark']+'.ttf'
-        mark_size = int(config_ed['mark_size']) * 2
-
-        base = Image.open(io.BytesIO(in_image)).convert('RGBA')
-        main_W, main_H = base.size
-
-        txt = Image.new('RGBA', base.size, (255,255,255,0))
-        fnt = ImageFont.truetype(url_for_font_style, mark_size)
-        
-        d = ImageDraw.Draw(txt)
-
-        text_W, text_H = d.textsize(config_ed['text_mark'], fnt)
-        d.text(self.pos_conf(main_W, main_H, text_W, text_H,
-         config_ed['position_mark']), config_ed['text_mark'], font = fnt, fill = tuple(color))
-        
-        out = Image.alpha_composite(base, txt)
-
-        bytes_photo = io.BytesIO()
-        out.save(bytes_photo, format='PNG')
+        bytes_photo = BytesIO()
+        out = out.convert('RGB')
+        out.save(bytes_photo, format='jpeg')
         return bytes_photo
-
-
-    def add_watermark(self,in_image,watermark_image, config_ed):
-
-        input_image = Image.open(io.BytesIO(in_image)).convert("RGBA")
-        main_W, main_H = input_image.size
-        watermark = Image.open(io.BytesIO(watermark_image)).convert("RGBA")
-        watermark = Image.eval(watermark, lambda x: int((x /100) * config_ed['transparent_mark']))
-
-
-        mark_size = int((((main_H+main_W)/2)/100)*int(config_ed['mark_size']))
-
-        wpercent = (mark_size/float(watermark.size[0]))
-        hsize = int((float(watermark.size[1])*float(wpercent)))
-        watermark = watermark.resize((mark_size,hsize), Image.ANTIALIAS)
-
-        mark_W, mark_H = watermark.size
-
-        transparent = Image.new('RGBA', (main_W, main_H), (0,0,0,0))
-        transparent.paste(input_image, (0,0))
-        transparent.paste(watermark, box = self.pos_conf(main_W, main_H, mark_W, mark_H, config_ed['position_mark']),mask=watermark) # mask=watermark
-
-        bytes_photo = io.BytesIO()
-        t = transparent.convert('RGB')
-        t.save(bytes_photo, format='jpeg')
-        return bytes_photo
-
-
-
-    def photo_edit(self,ch_id,msg_id,bytes_photo, caption, config_ed):
-        print(f'Edit photo... , msg_id: {msg_id}, ch_id: {ch_id}')
-        try:
-            info = self.bot.edit_message_media(chat_id = ch_id, message_id = msg_id, media = types.InputMediaPhoto(bytes_photo.getvalue(), caption = caption))
-            print('-------------------------- SUCCESS EDITED ---------------------------')
-            
-        except Exception as e:
-            markup = InlineKeyboardMarkup()
-            print('Error edit media: ', e)
-            try:
-                
-                r = self.bot.get_chat_member(ch_id, 770141959)
-
-                if not r.can_edit_messages:
-                    print('can`t_edit_messages')
-                    markup.add(InlineKeyboardButton(text = 'Скрить', callback_data = 'open main'))
-
-                    msg_id = self.bot.send_message(config_ed['user_id'], 
-'⚠️ Привет только что питался поставить водяной знак в канале '+config_ed['past_name_ch']+', но оказалось у меня нет права Редактировать чужие сообщенияє',
-                     reply_markup = markup)
-
-            except Exception as e:
-                print('Error get chat member: ', e)
-                msg_id = self.bot.send_message(config_ed['user_id'], 
-'⚠️ Привет только что питался поставить водяной знак в канале '+config_ed['past_name_ch']+', но оказалось я не администратор',
-                     reply_markup = markup)
-
-
-
-
-
-
-
-            
-            
-            self.db.msg_id(config_ed['user_id'], msg_id.message_id)
-
-
     
-    def pos_conf(self, main_W, main_H, mark_W, mark_H, position):
+    def pos_conf(self, main_W, main_H, mark_W, mark_H, info):
+        position = info.pos_mark
+        margin   = info.margin_mark
         if position == 'top_left':
-            return 0,0
+            return margin, margin
         elif position == 'top':
-            return int(main_W/2) - int(mark_W/2), 0
+            return int(main_W / 2) - int(mark_W / 2), margin
         elif position == 'top_right':
-            return main_W - mark_W, 0
+            return main_W - mark_W - margin, margin
         elif position == 'center_left':
-            return 0, int(main_H/2) - int(mark_H/2)
+            return margin, int(main_H / 2) - int(mark_H / 2)
         elif position == 'center':
-            return int(main_W/2) - int(mark_W/2), int(main_H/2) - int(mark_H/2)
+            return int(main_W / 2) - int(mark_W/2), int(main_H/2) - int(mark_H/2)
         elif position == 'center_right':
-            return main_W - mark_W, int(main_H/2) - int(mark_H/2)
+            return main_W - mark_W - margin, int(main_H / 2) - int(mark_H / 2)
         elif position == 'down_left':
-            return 0, main_H - mark_H
+            return margin, main_H - mark_H
         elif position == 'down':
-            return int(main_W/2) - int(mark_W/2), main_H - mark_H
+            return int(main_W / 2) - int(mark_W / 2), main_H - mark_H - margin
         elif position == 'down_right':
-            return main_W - mark_W, main_H - mark_H
+            return main_W - mark_W - margin, main_H - mark_H - margin   
+        else:
+            raise 'Error key position'
 
+    def txt_mark(self, b_size, info):
+        print(b_size)
+        color = tuple(map(int, info.color_mark.split()))
+        path_font_style = 'fonts/' + info.font_style + '.ttf'
 
-                
+        txt = Image.new('RGBA', (1000,1000), (255,255,255,0))
+        fnt = ImageFont.truetype(path_font_style, 68)
+        
+        txt_img  = ImageDraw.Draw(txt)
+        txt_size = txt_img.textsize(info.text_mark, fnt)
+        txt_img.text((0, 0), info.text_mark, font = fnt, fill = color)
+        txt = txt.crop((0, 0, *txt_size)) # cut everything apart text
+        return txt
+        

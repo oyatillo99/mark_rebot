@@ -77,8 +77,21 @@ def transparent_mark():
     return bts
     
     
+def margin_mark():
+    bts = markup()
+    bts.add(button(text='⬅️ Назад',  callback_data='open ch_sett'))
+    bts.add(button(text='0 px',  callback_data='set ch margin_mark 0'),
+            button(text='1 px',  callback_data='set ch margin_mark 1'),
+            button(text='2 px',  callback_data='set ch margin_mark 2'))
     
+    bts.add(button(text='3 px',  callback_data='set ch margin_mark 3'),
+            button(text='5 px',  callback_data='set ch margin_mark 5'),
+            button(text='7 px',  callback_data='set ch margin_mark 7'))
     
+    bts.add(button(text='10 px',  callback_data='set ch margin_mark 10'),
+            button(text='15 px',  callback_data='set ch margin_mark 15'),
+            button(text='20 px',  callback_data='set ch margin_mark 20'))
+    return bts
 
 
     

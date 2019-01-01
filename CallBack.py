@@ -11,16 +11,19 @@ class CallBack(object):
             'ch_list'     : view.ch_list,
             'support'     : view.support,
             'set_mark'    : view.set_mark,
+            'photo_mark'  : view.photo_mark,
+            'bot_info'    : view.bot_info,
+            'del_ch_sett' : view.del_ch_sett,   
+            
             'mark_size'   : view.mark_size,
             'pos_mark'    : view.pos_mark,
             'font_style'  : view.font_style,
-            'photo_mark'  : view.photo_mark,
-            'bot_info'    : view.bot_info,
             'color_mark'  : view.color_mark,
-            'del_ch_sett' : view.del_ch_sett,         
+            'margin_mark' : view.margin_mark,    
+            'transparent_mark':view.transparent_mark,
+
             'instruct_desktop':view.instruct_desktop,
             'instruct_android':view.instruct_android,
-            'transparent_mark':view.transparent_mark,
         }
 
 
