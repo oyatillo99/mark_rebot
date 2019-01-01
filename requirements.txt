@@ -4,3 +4,6 @@ psycopg2==2.7.5
 psycopg2-binary==2.7.5
 pyTelegramBotAPI==3.6.6
 gunicorn==19.9.0
+moviepy==0.2.3.5
+numpy==1.15.4
+
