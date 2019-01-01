@@ -166,7 +166,7 @@ class DB(object):
         return photo_id
                                 
 
-    def new_edit_post(self, group_id, user_id, type_mark):
+    def new_edit_post(self, group_id, user_id):
         date = datetime.datetime.today()
         with self.conn:
             with self.conn.cursor() as cur:

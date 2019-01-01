@@ -155,6 +155,7 @@ def chanel_photo_handler(msg):
 
 	photo = editor.edit_photo(info, file, mark)
 	edit_media(msg, InputMediaPhoto(photo.getvalue()), info)
+	db.new_edit_post(info.id, info.user_id)
 
 @bot.channel_post_handler(content_types = ['video','document'])
 def chanel_gif_handler(msg):
@@ -173,8 +174,8 @@ def chanel_gif_handler(msg):
 		print("this no video or gif")
 		return
 		
-
-	if media.file_size > 500000:
+						 
+	if media.file_size > 5000000:
 		print('This vidoe very big')
 		return
 
@@ -205,6 +206,7 @@ def chanel_gif_handler(msg):
 
 	os.remove(input_file_name)
 	os.remove(output_file_name)
+	db.new_edit_post(info.id, info.user_id)
 
 print('Done')
 
