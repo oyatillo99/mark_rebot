@@ -43,7 +43,11 @@ def download_file(file_id):
 
 def check_ch(info):
 	if info:
-		return True
+		if info.status =='on':
+			return True
+		else:
+			print('Channel status off, return')
+			return False
 	else:
 		print('This channel not found, return')
 		
@@ -61,9 +65,7 @@ def check_ch(info):
 					print('Error send block msg: ', e)
 				db.msg_id(admin.user.id, msg_id.message_id)
 				return False
-	if info.status =='off':
-		print('Channel status off, return')
-		return False
+	
 	
 
 
