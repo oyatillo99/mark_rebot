@@ -82,7 +82,7 @@ class Private(object):
             txt_error = 'Этот канал не существует или я не администратор! \nПовторите или нажмите \'⬅️ Назад\''
         else:
             self.bot.delete_message(username_ch, msg.message_id)
-            ch_ids = self.db.get_groups_id(user_id)
+            ch_ids = self.db.get_channel_id(user_id)
             print(ch_ids)
             if len(ch_ids) > 0 and msg.chat.id in ch_ids[0]:
                 txt_error = 'Этот канал уже добавлен! \nПовторите или нажмите \'⬅️ Назад\''
