@@ -162,6 +162,8 @@ def chanel_gif_handler(msg):
 	print(msg)
 	print('start edit..')
 	info = db.get_ch(ch_id = msg.chat.id)
+	if not check_ch(info):
+		return
 	media = None
 	type_media = None
 	if msg.content_type == 'document' and msg.document.mime_type == 'video/mp4':
