@@ -67,7 +67,7 @@ def transparent_mark():
             button(text='5%',  callback_data='set ch transparent_mark 95'),
             button(text='10%',  callback_data='set ch transparent_mark 90'))
     
-    bts.add(button(text='15%',  callback_data='set ch transparent_mar 85'),
+    bts.add(button(text='15%',  callback_data='set ch transparent_mark 85'),
             button(text='20%',  callback_data='set ch transparent_mark 80'),
             button(text='25%',  callback_data='set ch transparent_mark 75'))
     
