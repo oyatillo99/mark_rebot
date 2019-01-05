@@ -122,8 +122,10 @@ class DB(object):
             with self.conn.cursor(cursor_factory = psycopg2.extras.DictCursor) as cur:
                 cur.execute("SELECT * FROM groups_setting WHERE id = %s;",(ch_id,))
                 data = cur.fetchall()
-                
-                return ChInfo(dict(data[0]))
+                if data:
+                    return ChInfo(dict(data[0]))
+                else:
+                    return None
         
     
     def del_ch_sett(self, user_id):
