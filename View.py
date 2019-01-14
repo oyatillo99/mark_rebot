@@ -251,11 +251,14 @@ class View(object):
 
     @gs_info
     def bot_info(self, user_id):
+        count_edited_post = self.db.get_bot_info()
+       
         bts = markup()
         bts.add(btn(text='⬅️ Назад', callback_data = 'open main'))
-        text = '''SetWaterMarkBot v0.2.0
+        text = f'''SetWaterMarkBot v0.2.1
 Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
 Наш чат поддержки @SetWMBotSupport
+Отредактировано постов: {count_edited_post}
         '''
         return text, bts
 
