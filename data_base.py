@@ -180,7 +180,12 @@ class DB(object):
                     SET post_edit_count = post_edit_count + 1
                     WHERE id = %s;""",(group_id,))   
 
-
+    def get_bot_info(self):
+        with self.conn:
+            with self.conn.cursor() as cur:
+                cur.execute("SELECT * FROM bot_info WHERE id = 1;",)
+                data = cur.fetchone()[0]
+        return data
 
 
 # CREATE TABLE  info_bot (
