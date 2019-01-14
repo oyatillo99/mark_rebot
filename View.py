@@ -152,7 +152,7 @@ class View(object):
         bts.add(btn(text='Размер: ' + str(ch_info.mark_size) + '%', callback_data = 'open mark_size'),
                 btn(text='Позиция: '+ self.view_position(ch_info.pos_mark), callback_data = 'open pos_mark'))
         bts.add(btn(text='Прозрa-ть: ' + transparent, callback_data = 'open transparent_mark'),
-                btn(text='Отступи: ' + str(ch_info.margin_mark), callback_data = 'open margin_mark'))
+                btn(text='Отступи: ' + str(ch_info.margin_mark) + "px", callback_data = 'open margin_mark'))
 
         if not ch_info.photo_id == 'off':
             bts.add(btn(text = 'Изменить марку', callback_data = 'open photo_mark'))
