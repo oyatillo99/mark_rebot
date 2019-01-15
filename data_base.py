@@ -183,7 +183,7 @@ class DB(object):
     def get_bot_info(self):
         with self.conn:
             with self.conn.cursor() as cur:
-                cur.execute("SELECT * FROM bot_info WHERE id = 1;",)
+                cur.execute(" select all_edited_posts from bot_info;",)
                 data = cur.fetchone()[0]
         return data
 
