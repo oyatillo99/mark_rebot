@@ -3,7 +3,7 @@ import flask
 from telebot import types
 import logging
 
-import config 
+from . import config 
 from main import bot
  
 server = flask.Flask(__name__)
