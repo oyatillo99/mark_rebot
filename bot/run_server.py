@@ -4,7 +4,7 @@ from telebot import types
 import logging
 
 from . import config 
-from main import bot
+from .main import bot
  
 server = flask.Flask(__name__)
  
