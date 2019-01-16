@@ -1,1 +1,1 @@
-web: gunicorn bot.run_server:server
+web: gunicorn --chdir /bot bot.run_server:server
