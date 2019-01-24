@@ -228,14 +228,14 @@ class View(object):
 
     @gs_info
     def mark_size(self, user_id):
-        return 'Установите размер марки', 'mark_size'
+        return 'Выберите размер марки', 'mark_size'
     @gs_info
     def margin_mark(self, user_id):
-        return 'Установите размер отступов', 'margin_mark'
+        return 'Выберите размер отступов', 'margin_mark'
 
     @gs_info
     def pos_mark(self, user_id):
-        return 'Вибирете позицию марки', 'pos_mark'
+        return 'Выберите позицию марки', 'pos_mark'
 
     @gs_info
     def font_style(self, user_id):
