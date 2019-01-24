@@ -128,7 +128,7 @@ def edit_media(msg, media, info):
 
 			print('Bot can`t edit messages')
 			markup.add(InlineKeyboardButton(
-				text = 'Скрить', callback_data = 'open main'))
+				text = 'Скрыть', callback_data = 'open main'))
 
 			msg_id = bot.send_message(info.user_id, 
 			txt + info.past_name_ch + ', но оказалось у меня нет права Редактировать чужие сообщенияє',
