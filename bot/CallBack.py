@@ -9,7 +9,6 @@ class CallBack(object):
             'ch_add'      : view.ch_add,
             'ch_sett'     : view.ch_setting,
             'ch_list'     : view.ch_list,
-            'support'     : view.support,
             'set_mark'    : view.set_mark,
             'photo_mark'  : view.photo_mark,
             'bot_info'    : view.bot_info,
