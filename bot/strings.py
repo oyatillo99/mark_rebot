@@ -28,11 +28,11 @@ ru = {
     'instrukt_desktop':'Инструкция desktop',
     'channel_added'  : 'Канал *{channel_name}* добавлен!\nСекунду...',
     'instrukt_android':'Инструкция для android',
-    'status'         : 'Статус:',
-    'size'           : 'Размер:',
-    'position'       : 'Позиция:',
+    'status'         : 'Статус: ',
+    'size'           : 'Размер: ',
+    'position'       : 'Позиция: ',
     'transparent'    : 'Прозрачность:',
-    'margin'         : 'Отступы',
+    'margin'         : 'Отступы: ',
     'change_mark'    : 'Изменить марку',
     'text'           : 'Текст: ',
     'color'          : 'Цвет: ',
@@ -40,7 +40,7 @@ ru = {
     'update'         : 'Обновить',
     'del_setting'    : 'Удалить настройки',
     'del_bot'        : '⚠️ Ты удалил меня из администраторов в канале: *{channel_name}*\nЯ не смогу ставить водяние знаки в этом канале. Выдай мне права администратора и нажми "Обновить"',
-    'bot_info'       : '''SetWaterMarkBot v0.2.2
+    'bot_info'       : '''SetWaterMarkBot v0.2.3
 Обо всех возникших проблемах и предложениях по улучшению бота пишите @PavlMais
 Наш чат поддержки @SetWMBotSupport
 Отредактировано постов: {count_edited_post}
