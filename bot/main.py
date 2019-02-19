@@ -1,16 +1,21 @@
 print('Starting..')
-import telebot
-import requests
+from pprint import pprint
 import uuid
 import os
+import requests
+
+
+import telebot
 from telebot.types import (InlineKeyboardMarkup, InlineKeyboardButton,
  			InputMediaPhoto, InputMediaVideo, InputMediaAnimation)
+
+from strings import ru
 from Private import Private
 from View import View
 from CallBack import CallBack
 from data_base import DB
 from editor import Editor
-from pprint import pprint
+
 try:
 	import local_config as config
 except:
@@ -60,7 +65,7 @@ def check_ch(info):
 			
 				markup.add(InlineKeyboardButton(text = 'Настроить канал', callback_data = call_data ))
 				try:
-					msg_id = bot.send_message(admin.user.id, 'Привет оказалось я админ в твоем канале и я не знаю какую марку ставить в твоих постах. Если не хочешь это видеть можешь удалить меня из администраторов.', reply_markup = markup)
+					msg_id = bot.send_message(admin.user.id, ru['mark_no_set'], reply_markup = markup)
 				except Exception as e:
 					print('Error send block msg: ', e)
 				db.msg_id(admin.user.id, msg_id.message_id)
@@ -77,8 +82,8 @@ def private_handler(msg):
 	markup = InlineKeyboardMarkup()
                     
 	if db.user_get(user_id, 'group_select') == 0:
-		markup.add(InlineKeyboardButton(text = 'Открить', callback_data = 'open ch_list'))
-		bot.send_message(user_id, 'Нужно открить настройки', reply_markup = markup)
+		markup.add(InlineKeyboardButton(text = ru['open'], callback_data = 'open ch_list'))
+		bot.send_message(user_id, ru['need_open_setting'], reply_markup = markup)
 		return
 
 	info = db.get_ch(user_id = user_id)
@@ -88,7 +93,7 @@ def private_handler(msg):
 		print('Channel status off, return private')
 		return
 		
-	markup.add(InlineKeyboardButton(text = 'Открить навстройки', callback_data = 'open ch_sett $is_new=True, ch_id=' + str(info.id)))
+	markup.add(InlineKeyboardButton(text = ru['open_setting'], callback_data = 'open ch_sett $is_new=True, ch_id=' + str(info.id)))
 	
 	in_photo = download_file(msg.photo[-1].file_id)
 
@@ -118,7 +123,7 @@ def edit_media(msg, media, info):
 	except Exception as e:
 		markup = InlineKeyboardMarkup()
 		print('Error edit media: ', e)
-		txt = '⚠️ Привет только что питался поставить водяной знак в канале '
+		txt = ru['error_']
 		
 		try:					
 			r = bot.get_chat_member(info.id, 770141959)
@@ -128,16 +133,16 @@ def edit_media(msg, media, info):
 
 			print('Bot can`t edit messages')
 			markup.add(InlineKeyboardButton(
-				text = 'Скрыть', callback_data = 'open main'))
+				text = ru['hide'], callback_data = 'open main'))
 
 			msg_id = bot.send_message(info.user_id, 
-			txt + info.past_name_ch + ', но оказалось у меня нет права Редактировать чужие сообщенияє',
+			txt + info.past_name_ch + ru['_photo_edit'],
 				reply_markup = markup)
 
 		except Exception as e:
 			print('Error get chat member: ', e)
 			msg_id = bot.send_message(info.user_id, 
-			txt + info.past_name_ch + ', но оказалось я не администратор',
+			txt + info.past_name_ch + ru['_no_admin'],
 					reply_markup = markup)
 
 			db.msg_id(info.user_id, msg_id.message_id)
