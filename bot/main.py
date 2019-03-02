@@ -184,7 +184,7 @@ def chanel_gif_handler(msg):
 		return
 		
 						 
-	if media.file_size > 10000000:
+	if media.file_size > 5000000:
 		print('This vidoe very big')
 		return
 
