@@ -22,7 +22,7 @@ class Editor(object):
         out = CompositeVideoClip([base, mark])
         out.duration = base.duration
         out.write_videofile(out_file, threads = None)
-        return out_file
+        return out_file, base.size
 
 
     def preparation_mark(self, info, mark, base_size):
