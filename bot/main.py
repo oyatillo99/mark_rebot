@@ -201,17 +201,17 @@ def chanel_gif_handler(msg):
 	else:
 		mark = download_file(info.photo_id)
 
-	output_file_name = editor.edit_gif(info, input_file_name, mark)
+	output_file_name, m_size = editor.edit_gif(info, input_file_name, mark)
+	print('m_size', m_size)
+	width, height = m_size
+
+	url   = f"https://api.telegram.org/bot{config.TOKEN}/sendAnimation?width={width}&height={height}"
+	files = {'animation': open(output_file_name, 'rb')}
+	data  = {'chat_id' : info.id, 'caption': msg.caption, 'disable_notification': True}
+	r = requests.post(url, files=files, data=data)
+	print(r.status_code, r.reason, r.content)
+	bot.delete_message(info.id, message_id= msg.message_id)
 	
-	if info.del_or_edit == 'del' and type_media == 'gif':
-		url   = f"https://api.telegram.org/bot{config.TOKEN}/sendAnimation"
-		files = {'animation': open(output_file_name, 'rb')}
-		data  = {'chat_id' : info.id, 'caption': msg.caption, 'disable_notification': True}
-		r = requests.post(url, files=files, data=data)
-		print(r.status_code, r.reason, r.content)
-		bot.delete_message(info.id, message_id= msg.message_id)
-	else:
-		edit_media(msg, InputMediaVideo(open(output_file_name, 'rb'), caption = msg.caption), info)
 
 	os.remove(input_file_name)
 	os.remove(output_file_name)
