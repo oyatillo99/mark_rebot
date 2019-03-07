@@ -36,7 +36,7 @@ class Private(object):
             else:
                 self.db.channel_set(user_id, 'id_photo_mark', 'off')
                 self.db.channel_set(user_id, 'text_mark', message.text)
-                self.bot.send_message(user_id, re['textmark_set'].format(text = message.text), parse_mode = 'Markdown')
+                self.bot.send_message(user_id, ru['textmark_set'].format(text = message.text), parse_mode = 'Markdown')
             self.view.ch_setting(user_id, is_new = True)
             self.db.user_set(user_id, 'menu_select', 'ch_sett')
            
