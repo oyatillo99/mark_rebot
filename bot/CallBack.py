@@ -51,19 +51,19 @@ class CallBack(object):
                     
         elif cmd[0] == 'open':
             
-            try:
-                if 'ch_id' in args:
-                    self.db.user_set(user_id, 'group_select', args['ch_id'])
-                    
-                    del args['ch_id']
-                self.db.user_set(user_id, 'menu_select', cmd[1])
-                self.map_method[cmd[1]](user_id, **args)
-            except Exception as e:
+      #      try:
+            if 'ch_id' in args:
+                self.db.user_set(user_id, 'group_select', args['ch_id'])
+
+                del args['ch_id']
+            self.db.user_set(user_id, 'menu_select', cmd[1])
+            self.map_method[cmd[1]](user_id, **args)
+        #    except Exception as e:
                 
-                print('Error map method: ', e)
-                print('CMD: ', cmd, ' ARGS: ', args)
-                print(data)
-                self.view.main(user_id)
+        #        print('Error map method: ', e)
+        #        print('CMD: ', cmd, ' ARGS: ', args)
+        #        print(data)
+        #        self.view.main(user_id)
             
             
 
