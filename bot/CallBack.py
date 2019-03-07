@@ -59,7 +59,10 @@ class CallBack(object):
                 self.db.user_set(user_id, 'menu_select', cmd[1])
                 self.map_method[cmd[1]](user_id, **args)
             except Exception as e:
+                
                 print('Error map method: ', e)
+                print('CMD: ', cmd, ' ARGS: ', args)
+                print(data)
                 self.view.main(user_id)
             
             
