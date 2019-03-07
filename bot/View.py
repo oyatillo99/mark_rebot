@@ -90,7 +90,7 @@ class View(object):
         ch_list.add(btn(text=ru['back'], callback_data = 'open main'),
                     btn(text=ru['add'], callback_data = 'open ch_add'))
         if not channels:
-            return ru['channel_no_exist'], ch_list
+            return ru['ch_list_empty'], ch_list
        
         for ch in channels:
             try:
