@@ -46,7 +46,8 @@ def download_file(file_id):
 
 
 
-def check_ch(info):
+def check_ch(info, chat_id = None):
+	print('INFO CH: ', info, chat_id)
 	if info:
 		if info.status =='on':
 			return True
@@ -70,6 +71,7 @@ def check_ch(info):
 					print('Error send block msg: ', e)
 				db.msg_id(admin.user.id, msg_id.message_id)
 				return False
+			
 	
 	
 
@@ -169,7 +171,7 @@ def chanel_gif_handler(msg):
 	print(msg)
 	print('start edit..')
 	info = db.get_ch(ch_id = msg.chat.id)
-	if not check_ch(info):
+	if not check_ch(info, msg.chat.id):
 		return
 	media = None
 	type_media = None
